@@ -17,6 +17,9 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     
+        <!-- Fontawesome -->
+        <script src="https://kit.fontawesome.com/00dea3cce7.js" crossorigin="anonymous"></script>
+
     </head>
     <body>
         <div class="container mt-3">
@@ -119,6 +122,7 @@
             {{-- End of Jumbotron --}}
         </div>
 
+        {{-- Cards --}}
         <div class="container">
             <div class="container row">
                 <div class="col-3">
@@ -131,14 +135,47 @@
                     <div class="w-100"></div>
                 </div>
             </div>
-            <div class="container d-flex justify-content-between">
-                <div class="card">
-                    <img class="card-img-top" src="holder.js/100x180/" alt="">
+            <div class="container d-flex flex-row justify-content-between">
+                <div class="card col-3 mt-3 p-0">
+                    <img class="card-img-top img-fluid " style="width: 400px;" src="{{ asset('images/card-1.jpg') }}" alt="">
                     <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Text</p>
+                        <h4 class="card-title">Register</h4>
+                        <p class="card-text">Register as a buyer or farmer</p>
+                    </div>
+                    <div class="card-body">
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="btn btn-light btn-lg btn-block shadow-sm mb-3">Register</a>
+                        @endif
                     </div>
                 </div>
+                <div class="card col-3 mt-3 p-0">
+                    <img class="card-img-top img-fluid " style="width: 300px;" src="{{ asset('images/card-2.jpg') }}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Place Listing</h4>
+                        <p class="card-text">Place a listing or a request, and get connected to a matching farmer/buyer</p>
+                    </div>
+                </div>
+                <div class="card col-3 mt-3 p-0">
+                    <img class="card-img-top img-fluid " style="width: 400px;" src="{{ asset('images/card-3.jpg') }}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Get Paid / Get Produce</h4>
+                        <p class="card-text">Get paid for your produce / Receive the produce you require.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- End of cards --}}
+
+        {{-- Footer --}}
+        <div class="container d-flex flex-row justify-content-between pt-3">
+            <div class="container col">
+                <p>&copy;&nbsp;Copyright Farmitrade Nigeria. 2020.</p>
+            </div>
+            <div class="container col d-flex flex-row justify-content-between">
+                <h5>Find us on social media:&nbsp;</h5>
+                <a href="#" class="text-dark"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="text-dark"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="text-dark"><i class="fab fa-twitter fa-2x"></i></a>
             </div>
         </div>
         
