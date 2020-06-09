@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/00dea3cce7.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
@@ -71,10 +74,14 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="card bg-dark" style="border: none;">
+            <img src="{{ asset('images/background.jpg') }}" class="card-img" style="height: 100%;" alt="background-image">
+            <div class="card-img-overlay">
+                <main class="py-4">
+                    @yield('content')
+                </main>
+            </div>
+        </div>
     </div>
 </body>
 </html>

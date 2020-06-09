@@ -25,6 +25,9 @@
         <div class="container mt-3">
             {{-- Jumbotron --}}
             <div class="jumbotron jumbotron-fluid">
+                <div class="container w-100">
+                    <h3 class="text-center display-4 bg-success p-3">Farmitrade &#174;</h3>
+                </div>
                 <div class="container-fluid d-flex row mx-auto">
                     {{-- Side Panel with buttons and text --}}
                     <div class="col-4 bg-success py-3">
