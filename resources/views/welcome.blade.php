@@ -30,7 +30,7 @@
                 </div>
                 <div class="container-fluid d-flex row mx-auto">
                     {{-- Side Panel with buttons and text --}}
-                    <div class="col-4 bg-success py-3">
+                    <div class="col-md-4 bg-success py-3">
                         @if (Route::has('login'))
                         <div class="links">
                             @auth
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     {{-- End of Side Panel --}}
-                    <div class="col-8 bg-secondary py-3">
+                    <div class="col-md-8 bg-secondary py-3">
                         {{-- Carousel --}}
                         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
@@ -128,18 +128,18 @@
         {{-- Cards --}}
         <div class="container">
             <div class="container row">
-                <div class="col-3">
+                <div class="col-md-3">
                     <div class="w-100"></div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <h2 class="text-center display-4">How It Works!</h2>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <div class="w-100"></div>
                 </div>
             </div>
             <div class="container d-flex flex-row justify-content-between">
-                <div class="card col-3 mt-3 p-0">
+                <div class="card col-lg-3 mt-3 p-0">
                     <img class="card-img-top img-fluid " style="width: 400px;" src="{{ asset('images/card-1.jpg') }}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">Register</h4>
@@ -151,14 +151,14 @@
                         @endif
                     </div>
                 </div>
-                <div class="card col-3 mt-3 p-0">
+                <div class="card col-lg-3 mt-3 p-0">
                     <img class="card-img-top img-fluid " style="width: 300px;" src="{{ asset('images/card-2.jpg') }}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">Place Listing</h4>
                         <p class="card-text">Place a listing or a request, and get connected to a matching farmer/buyer</p>
                     </div>
                 </div>
-                <div class="card col-3 mt-3 p-0">
+                <div class="card col-lg-3 mt-3 p-0">
                     <img class="card-img-top img-fluid " style="width: 400px;" src="{{ asset('images/card-3.jpg') }}" alt="">
                     <div class="card-body">
                         <h4 class="card-title">Get Paid / Get Produce</h4>
