@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -35,7 +38,33 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate request data
+        $data = $request->validate([
+            'shipping_address1' => ['required', 'string', 'max:85'],
+            'shipping_address2' => ['required', 'string', 'max:85'],
+            'phone_number' => ['required', 'string', 'min:11'],
+            'billing_address1' => ['required', 'string', 'max:85'],
+            'billing_address2' => ['required', 'string', 'max:85'],
+            'profile_image' => ['required', 'image'],
+        ]);
+
+        // Handle the profile image
+        $imagePath = request('profile_image')->store('profile', 'public');
+
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(900, 900);
+            $image->save();
+
+        // Store the data
+        $user = User::where('id', auth()->id())->first();
+
+        $profile = $user->profile()->create([
+            'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+            'phone_number' => $data['phone_number'],
+            'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+            'profile_image' => $imagePath,
+        ]);
+
+        return redirect(route('profile.show', $profile->id));
     }
 
     /**
@@ -46,7 +75,10 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        // dd(auth()->user()->profile->id);
+        $profile = auth()->user()->profile;
+
+        return view('profiles.show', compact('profile'));
     }
 
     /**
@@ -57,7 +89,8 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        $profile = auth()->user()->profile;
+        return view('profiles.edit', compact('profile'));
     }
 
     /**
@@ -69,7 +102,38 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        // dd($request);
+        $data = $request->validate([
+            'shipping_address1' => ['nullable', 'string', 'max:85'],
+            'shipping_address2' => ['nullable', 'string', 'max:85'],
+            'phone_number' => ['nullable', 'string', 'min:11'],
+            'billing_address1' => ['nullable', 'string', 'max:85'],
+            'billing_address2' => ['nullable', 'string', 'max:85'],
+            'profile_image' => ['nullable', 'image'],
+        ]);
+
+        $updateData = ([
+            'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+            'phone_number' => $data['phone_number'],
+            'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+         ]);
+
+        // Handle Image
+        if (request('profile_image')) {
+            $imagePath = request('profile_image')->store('profile', 'public');
+
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(900, 900);
+            $image->save();
+
+            $imageArray = ['profile_image' => $imagePath];
+        }
+
+        auth()->user()->profile->update(array_merge(
+            $updateData, 
+            $imageArray ?? []
+        ));
+        
+        return redirect(route('profile.show', compact('profile')));
     }
 
     /**
@@ -80,6 +144,16 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        $user = auth()->user();
+
+        if($user->profile->profile_image !== null)
+        {
+            $profile_image = 'storage/' . $user->profile->profile_image;
+            File::delete($profile_image);
+        }
+
+        $user->delete();
+        
+        return redirect(route('home'));
     }
 }
