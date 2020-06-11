@@ -42,4 +42,8 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile');
     }
 
+    public function listings()
+    {
+        return $this->hasMany('App\Listing');
+    }
 }

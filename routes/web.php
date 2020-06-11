@@ -32,3 +32,9 @@ Route::get('profile/{profile}/edit', 'ProfileController@edit')->name('profile.ed
 Route::patch('profile/{profile}', 'ProfileController@update')->name('profile.update');
 
 Route::delete('profile/{profile}', 'ProfileController@destroy')->name('profile.destroy');
+
+Route::get('users/{user}/listing/create', 'ListingController@create')->name('listing.create');
+
+Route::post('users/{user}/listing', 'ListingController@store')->name('listing.store');
+
+Route::get('listing/{listing}', 'ListingController@show')->name('listing.show');

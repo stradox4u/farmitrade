@@ -43,7 +43,7 @@
         <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Edit Your Profile</a>
         @endif
         <a href="#" class="btn btn-success btn-lg mx-3 shadow-sm col">View Listings From {{ auth()->user()->user_type == 'buyer' ? 'Farmers' : 'Buyers' }}</a>
-        <a href="#" class="btn btn-success btn-lg mx-3 shadow-sm col">Place a New Listing</a>
+        <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Place a New Listing</a>
     </div>
     {{-- End of Row of Buttons --}}
 
@@ -59,21 +59,21 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit</th>
                     <th scope="col">Unit Price (&#8358;)</th>
-                    <th scope="col">Filled/Open</th>
+                    <th scope="col">Filled</th>
                 </tr>
             </thead>
             <tbody>
-                @for($i = 0 ; $i < 8 ; $i++)
+                @foreach(auth()->user()->listings as $listing)
                 <tr>
-                    <td scope="row">{{ $i + 1 }}</td>
-                    <td>Eggs</td>
-                    <td>Buy</td>
-                    <td>15</td>
-                    <td>Crates</td>
-                    <td>850</td>
-                    <td>Open</td>
+                    <td scope="row">{{ $loop->iteration }}</td>
+                    <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ $listing->produce }}</td></a>
+                    <td>{{ $listing->buy_sell }}</td>
+                    <td>{{ $listing->quantity }}</td>
+                    <td>{{ $listing->unit }}</td>
+                    <td>{{ $listing->unit_price }}</td>
+                    <td>{{ $listing->filled == false ? 'No' : 'Yes' }}</td>
                 </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
