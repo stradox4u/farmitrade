@@ -19,17 +19,17 @@
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Shipping Address:&nbsp;</h5>
-                <p>Authenticated user's shipping address</p>
+                <p>{{ auth()->user()->profile->shipping_address }}</p>
             </div>
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Billing Address:&nbsp;</h5>
-                <p>Authenticated user's billing address</p>
+                <p>{{ auth()->user()->profile->billing_address }}</p>
             </div>
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Phone Number:&nbsp;</h5>
-                <p>Authenticated user's phone number</p>
+                <p>{{ auth()->user()->profile->phone_number }}</p>
             </div>
         </div>
     </div>

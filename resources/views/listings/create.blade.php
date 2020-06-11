@@ -6,7 +6,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="text-dark text-center">Create Your Profile</h4>
+                    <h4 class="text-dark text-center">Create a Listing</h4>
                 </div>
 
                 <div class="card-body">
