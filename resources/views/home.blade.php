@@ -42,7 +42,7 @@
         @else
         <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Edit Your Profile</a>
         @endif
-        <a href="#" class="btn btn-success btn-lg mx-3 shadow-sm col">View Listings From {{ auth()->user()->user_type == 'buyer' ? 'Farmers' : 'Buyers' }}</a>
+        <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View Listings From {{ auth()->user()->user_type == 'buyer' ? 'Farmers' : 'Buyers' }}</a>
         <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Place a New Listing</a>
     </div>
     {{-- End of Row of Buttons --}}

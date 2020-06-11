@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Listing;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,23 @@ class ListingController extends Controller
      */
     public function index()
     {
-        //
+        if(auth()->user()->user_type == 'farmer')
+        {
+            $listings = Listing::where([
+                ['buy_sell', 'buy'],
+                ['filled', false],
+            ])->get();
+        }
+
+        if(auth()->user()->user_type == 'buyer')
+        {
+            $listings = Listing::where([
+                ['buy_sell', 'sell'],
+                ['filled', false],
+            ])->get();
+        }
+
+        return view('listings.index', compact('listings'));
     }
 
     /**
@@ -100,6 +117,8 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
-        //
+        $listing->delete();
+
+        return redirect(route('home'));
     }
 }

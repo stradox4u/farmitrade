@@ -29,6 +29,18 @@
         <div class="col">
             <a href="{{ route('home') }}" class="btn btn-lg btn-block btn-success shadow-sm">Back to Dashboard</a>
         </div>
+
+        @if(auth()->id() == $listing->user->id)
+        <div class="col">
+            <form action="{{ route('listing.destroy', $listing->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                
+                <button type="submit" class="btn btn-lg btn-block btn-success shadow-sm">Delete Listing</button>
+            </form>
+        </div>
+        @endif
+
         @if(auth()->id() !== $listing->user->id)
             <div class="col">
                 <a href="#" class="btn btn-lg btn-block btn-success shadow-sm">Transact Business</a>
