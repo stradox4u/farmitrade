@@ -46,4 +46,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Listing');
     }
+
+    public function canEdit($profile)
+    {
+        if($this->profile()->where('id', $profile->id)->first())
+        {
+            return true;
+        }
+        return false;
+    }
 }

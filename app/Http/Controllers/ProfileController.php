@@ -6,6 +6,7 @@ use App\User;
 use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
@@ -75,7 +76,6 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        // dd(auth()->user()->profile->id);
         $profile = auth()->user()->profile;
 
         return view('profiles.show', compact('profile'));

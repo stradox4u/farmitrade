@@ -19,8 +19,8 @@ class ProfileSeeder extends Seeder
 
         $farmer->profile()->create([
             'profile_image' => 'profile/IYDxzSpV9MSVf0Um3lfd2j4Iq7JINy6doOIvJozD.jpeg',
-            'shipping_address' => 'Flat B2, New Haven Estate, Abuja',
-            'billing_address' => '9A, Rabat Street, Wuse Zone 6',
+            'shipping_address' => 'Flat B2, New Haven Estate; Off Arab Road, Abuja',
+            'billing_address' => '9A, Rabat Street, Wuse Zone 6; Abuja',
             'phone_number' => '08172284483',
         ]);
 
@@ -28,8 +28,8 @@ class ProfileSeeder extends Seeder
 
         $buyer->profile()->create([
             'profile_image' => 'profile/IYDxzSpV9MSVf0Um3lfd2j4Iq7JINy6doOIvJozD.jpeg',
-            'shipping_address' => 'Flat B2, New Haven Estate, Abuja',
-            'billing_address' => '9A, Rabat Street, Wuse Zone 6',
+            'shipping_address' => 'Flat B2, New Haven Estate; Off Arab Road, Abuja',
+            'billing_address' => '9A, Rabat Street, Wuse Zone 6; Abuja',
             'phone_number' => '08079812422',
         ]);
     }

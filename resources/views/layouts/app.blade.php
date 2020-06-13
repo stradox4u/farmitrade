@@ -78,6 +78,9 @@
             <img src="{{ asset('images/background.jpg') }}" class="card-img" style="height: 100%;" alt="background-image">
             <div class="card-img-overlay">
                 <main class="py-4">
+                    <div class="container">
+                        @include('partials.alerts')
+                    </div>
                     @yield('content')
                 </main>
             </div>
