@@ -71,6 +71,8 @@ class ListingController extends Controller
             'unit_price' => $data['unit_price'],
         ]);
 
+        // Fire event to search database for matching listings and notify their posters
+
         return redirect(route('listing.show', $listing->id));
     }
 
