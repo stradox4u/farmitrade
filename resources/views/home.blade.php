@@ -19,17 +19,17 @@
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Shipping Address:&nbsp;</h5>
-                <p>{{ auth()->user()->profile->shipping_address }}</p>
+                <p>{{ auth()->user()->profile->shipping_address ?? 'Not yet set.' }}</p>
             </div>
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Billing Address:&nbsp;</h5>
-                <p>{{ auth()->user()->profile->billing_address }}</p>
+                <p>{{ auth()->user()->profile->billing_address ?? 'Not yet set' }}</p>
             </div>
 
             <div class="row px-3 text-light">
                 <h5 class="h5">Phone Number:&nbsp;</h5>
-                <p>{{ auth()->user()->profile->phone_number }}</p>
+                <p>{{ auth()->user()->profile->phone_number ?? 'Not yet set' }}</p>
             </div>
         </div>
     </div>
