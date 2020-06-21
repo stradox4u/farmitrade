@@ -37,6 +37,7 @@ class SendPossibleTransactions
         $relevantListings = Listing::where([
             ['produce', $listing->produce],
             ['buy_sell', 'sell'],
+            ['filled', false],
         ])->take(7)->get();
 
         if($relevantListings !== null)
