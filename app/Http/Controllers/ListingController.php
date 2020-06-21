@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Listing;
 use Illuminate\Http\Request;
+use App\Events\ListingCreated;
 
 class ListingController extends Controller
 {
@@ -72,6 +73,11 @@ class ListingController extends Controller
         ]);
 
         // Fire event to search database for matching listings and notify their posters
+        if(auth()->user()->user_type == 'buyer')
+        {
+            $user = auth()->user();
+            event(new ListingCreated($listing, $user));
+        }
 
         return redirect(route('listing.show', $listing->id));
     }
