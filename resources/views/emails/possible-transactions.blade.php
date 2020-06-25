@@ -1,7 +1,7 @@
 @component('mail::message')
 <p>Hello {{ $user->name }},</p>
 <br>
-<p>With respect to the last listing you posted on&nbsp;<a href="https://farmitrade.com.ng">Farmitrade</a>, seeking {{ $listing->quantity }}&nbsp;{{ $listing->unit }}&nbsp;of&nbsp;{{ $listing->produce }}, we are glad to inform you that we have open listings that can fill your requirements.</p>
+<p>With respect to the last listing you posted on&nbsp;<a href="https://farmitrade.com.ng">Farmitrade</a>, regarding {{ $listing->quantity }}&nbsp;{{ $listing->unit }}&nbsp;of&nbsp;{{ $listing->produce }}, we are glad to inform you that we have open listings that can match your listing.</p>
 <br>
 <p>Please find some of these listings below.</p>
 <br>

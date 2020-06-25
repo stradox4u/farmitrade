@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Listing extends Model
+class Transaction extends Model
 {
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function transaction()
+    public function listing()
     {
-        return $this->hasOne('App\Transaction');
+        return $this->belongsTo('App\Listing');
     }
 
     /**
@@ -22,6 +22,6 @@ class Listing extends Model
      * @var array
      */
     protected $fillable = [
-        'produce', 'location', 'buy_sell', 'quantity', 'unit', 'unit_price', 'filled',
+        'price_of_goods', 'price_of_logistics', 'insurance_premium', 'transaction_status',
     ];
 }

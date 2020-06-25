@@ -42,3 +42,5 @@ Route::post('users/{user}/listing', 'ListingController@store')->name('listing.st
 Route::get('listing/{listing}', 'ListingController@show')->name('listing.show');
 
 Route::delete('listing/{listing}', 'ListingController@destroy')->name('listing.destroy');
+
+Route::post('listing/{listing}/transaction', 'TransactionController@store')->name('transaction.store');

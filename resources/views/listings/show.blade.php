@@ -43,7 +43,13 @@
 
         @if(auth()->id() !== $listing->user->id)
             <div class="col">
-                <a href="#" class="btn btn-lg btn-block btn-success shadow-sm">Transact Business</a>
+                <form action="{{ route('transaction.store', $listing->id) }}" method="POST">
+                    @csrf
+
+                    <input type="hidden" name="relevant_listing" value="{{ $listing->id }}">
+                    
+                    <button type="submit" class="btn btn-lg btn-block btn-success shadow-sm">Make Offer</button>
+                </form>
             </div>
         @endif
     </div>
