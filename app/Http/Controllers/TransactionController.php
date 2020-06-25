@@ -21,16 +21,6 @@ class TransactionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,6 +50,7 @@ class TransactionController extends Controller
 
         // Link both parties to chat over Twilio
 
+        // Return view with success notification
         request()->session()->flash('success', 'The poster has been contacted successfully.');
         return redirect(route('home'));
     }

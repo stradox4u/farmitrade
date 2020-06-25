@@ -40,7 +40,7 @@ class SendPossibleTransactions
                 ['produce', 'LIKE', '%' . $listing->produce . '%'],
                 ['buy_sell', '=', 'buy'],
                 ['filled', '=', false],
-                ['user_id', '!=', '$user->id'],
+                ['user_id', '!=', $user->id],
                 ])->take(7)->get();
         }
             
@@ -50,7 +50,7 @@ class SendPossibleTransactions
                 ['produce', 'LIKE', '%' . $listing->produce . '%'],
                 ['buy_sell', '=', 'sell'],
                 ['filled', '=', false],
-                ['user_id', '!=', '$user->id'],
+                ['user_id', '!=', $user->id],
                 ])->take(7)->get();
         }
 
