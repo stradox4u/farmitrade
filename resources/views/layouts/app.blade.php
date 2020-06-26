@@ -74,7 +74,7 @@
                 </div>
             </div>
         </nav>
-        <div class="card bg-dark" style="border: none;">
+        <div class="card" style="border: none;">
             <img src="{{ asset('images/background.jpg') }}" class="card-img" style="height: 100%;" alt="background-image">
             <div class="card-img-overlay">
                 <main class="py-4">
@@ -84,6 +84,8 @@
                     @yield('content')
                 </main>
             </div>
+            @include('layouts.footer')
+            @yield('extra-js')
         </div>
     </div>
 </body>

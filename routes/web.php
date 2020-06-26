@@ -43,4 +43,13 @@ Route::get('listing/{listing}', 'ListingController@show')->name('listing.show');
 
 Route::delete('listing/{listing}', 'ListingController@destroy')->name('listing.destroy');
 
-Route::post('listing/{listing}/transaction', 'TransactionController@store')->name('transaction.store');
+Route::middleware('auth')->group(function()
+{
+    Route::post('listing/{listing}/transaction', 'TransactionController@store')->name('transaction.store');
+    
+    Route::get('transaction/{transaction}/edit', 'TransactionController@edit')->name('transaction.edit');
+    
+    Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
+
+    Route::get('transaction/{transaction}', 'TransactionController@show')->name('transaction.show');
+});

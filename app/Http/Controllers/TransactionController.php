@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Listing;
+use Carbon\Carbon;
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Mail\MakePaymentNowEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InterestInYourListingMail;
 
@@ -31,13 +33,16 @@ class TransactionController extends Controller
         // dd($request['relevant_listing']);
         $user = auth()->user();
 
+        // Retrieve Relevant Listing
+        $relevantListing = Listing::where('id', $request['relevant_listing'])->first();
+
         // Create Transaction
         $transaction =  new Transaction([
             'transaction_status' => 'processing',
+            'produce' => $relevantListing->produce,
+            'unit' => $relevantListing->unit,
         ]);
 
-        // Retrieve Relevant Listing
-        $relevantListing = Listing::where('id', $request['relevant_listing'])->first();
 
         // Recursively Save Relationships
         $transaction->user_id = $user->id;
@@ -47,8 +52,6 @@ class TransactionController extends Controller
 
         // Send Email to Poster of Listing
         Mail::to($relevantListing->user->email)->send(new InterestInYourListingMail($relevantListing, $user));
-
-        // Link both parties to chat over Twilio
 
         // Return view with success notification
         request()->session()->flash('success', 'The poster has been contacted successfully.');
@@ -63,7 +66,19 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        if(auth()->user()->user_type == 'buyer')
+        {
+            if(($transaction->user_id == auth()->id() || $transaction->listing->user_id == auth()->id()))
+            {
+                $transaction = Transaction::where('id', $transaction->id)->first();
+                return view('transactions.show', compact('transaction'));
+            }
+        } else
+        {
+            request()->session()->flash('warning', 'Sorry, only the relevant buyer is allowed access to this page.');
+            return back();
+        }
+        
     }
 
     /**
@@ -74,7 +89,18 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        if(auth()->user()->user_type == 'farmer')
+        {
+            if(($transaction->user_id == auth()->id() || $transaction->listing->user_id == auth()->id()))
+            {
+                $transaction = Transaction::where('id', $transaction->id)->first();
+                return view('transactions.edit', compact('transaction'));
+            }
+        } else 
+        {
+            request()->session()->flash('warning', 'Sorry, only the relevant farmer is allowed access to this page.');
+            return back();
+        }
     }
 
     /**
@@ -86,17 +112,44 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
-    }
+        $data = $request->validate([
+            'produce' => ['required', 'string', 'max:85'],
+            'unit' => ['required', 'string', 'max:85'],
+            'quantity' => ['required', 'numeric'],
+            'price_of_goods' => ['numeric', 'required'],
+            'price_of_logistics' => ['numeric', 'required'],
+            'delivery_timeframe' => ['numeric', 'required'],
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Transaction $transaction)
-    {
-        //
+        // Calculate Insurance Premium based on 0.65% of value of goods
+        $insurancePremium = number_format($data['price_of_goods'] * 0.0065, 2);
+
+        // Generate a unique transaction id
+        $transactionId = $transaction->user_id . '-' . $transaction->listing->user_id . '-' . $transaction->produce . '/' . $transaction->quantity . '/' . $transaction->unit . '-' . Carbon::now()->toDateTimeString();
+
+        // Update Transaction in database
+        $transaction->update([
+            'produce' => $data['produce'],
+            'unit' => $data['unit'],
+            'quantity' => $data['quantity'],
+            'price_of_goods' => $data['price_of_goods'],
+            'price_of_logistics' => $data['price_of_logistics'],
+            'insurance_premium' => $insurancePremium,
+            'transaction_id_for_paystack' => $transactionId,
+            'delivery_timeframe' => $data['delivery_timeframe'],
+        ]);
+
+        if($transaction->user->user_type == 'buyer')
+        {
+            $buyerEmail = $transaction->user->email;
+        } else
+        {
+            $buyerEmail = $transaction->listing->user->email;
+        }
+
+        // Send buyer email with link with which to make payment
+        Mail::to($buyerEmail)->send(new MakePaymentNowEmail($transaction));
+
+        return redirect(route('home'));
     }
 }
