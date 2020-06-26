@@ -21,7 +21,7 @@
             <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->insurance_premium, 2) }}</p>
             <div class="form-check row mb-3">
                 <div class="col d-flex flex-row">
-                    <input id="pay_insurance_premium" type="checkbox" class="form-check-input" name="tos" value="1">
+                    <input id="pay_insurance_premium" type="checkbox" class="form-check-input" name="pay_insurance_premium" value="1">
                     <label for="pay_insurance_premium" class="form-check-label">
                         <a href="#"><p class="text-dark text-decoration-none" data-toggle="modal" data-target="#insurancePremiumModal">Pay Insurance Premium</p></a>
                     </label>
@@ -32,7 +32,7 @@
             <a href="#" class="btn btn-block btn-lg btn-success shadow-sm">Pay With Paystack</a>
         </div>
     </div>
-    
+
     {{-- Insurance Premium Explanation Modal --}}
     <div class="modal fade" id="insurancePremiumModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -59,15 +59,15 @@
 
 {{-- Some Javascript to enable the close and accept button --}}
 @section('extra-js')
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-            window.onload = function()
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+        window.onload = function()
+        {
+            var el = document.getElementById('close_accept');
+            el.addEventListener('click', function(el) 
             {
-                var el = document.getElementById('close_accept');
-                el.addEventListener('click', function(el) 
-                {
-                    document.getElementById("pay_insurance_premium").checked = true;
-                });
-            }
-    </script>
+                document.getElementById("pay_insurance_premium").checked = true;
+            });
+        }
+</script>
 @endsection
