@@ -135,6 +135,7 @@ class TransactionController extends Controller
             'price_of_goods' => $data['price_of_goods'],
             'price_of_logistics' => $data['price_of_logistics'],
             'insurance_premium' => $insurancePremium,
+            'platform_fee' => $data['price_of_goods'] * 0.05,
             'transaction_id_for_paystack' => $transactionId,
             'delivery_timeframe' => $data['delivery_timeframe'],
         ]);

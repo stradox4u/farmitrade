@@ -84,9 +84,9 @@
                     @yield('content')
                 </main>
             </div>
-            @include('layouts.footer')
-            @yield('extra-js')
         </div>
     </div>
+    @include('layouts.footer')
+    @yield('extra-js')
 </body>
 </html>

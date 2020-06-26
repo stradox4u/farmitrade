@@ -1,4 +1,4 @@
-<footer class="row">
+<footer class="row mt-3">
     <div class="container d-flex justify-content-between mt-4">
         <p class="pl-3 font-weight-bold h3">Find Us On: </p>
         <a href="#">

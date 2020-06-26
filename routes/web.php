@@ -53,3 +53,7 @@ Route::middleware('auth')->group(function()
 
     Route::get('transaction/{transaction}', 'TransactionController@show')->name('transaction.show');
 });
+
+Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
+
+Route::get('/success', 'PaymentController@handleGatewayCallback')->name('paystack.success');

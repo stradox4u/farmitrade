@@ -17,6 +17,11 @@
             <hr>
             <br>
 
+            <h4 class="card-title">Platform Fee (5%):</h4>
+            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->platform_fee, 2) }}</p>
+            <hr>
+            <br>
+
             <h4 class="card-title">Insurance Premium:</h4>
             <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->insurance_premium, 2) }}</p>
             <div class="form-check row mb-3">
@@ -29,8 +34,32 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="#" class="btn btn-block btn-lg btn-success shadow-sm">Pay With Paystack</a>
+            <a id="pay_button" href="" class="btn btn-block btn-lg btn-success shadow-sm">Pay With Paystack</a>
         </div>
+    </div>
+    
+    <div class="container">
+        <form id="no_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+            {{-- @csrf --}}
+    
+            <input type="hidden" id="no_insurance_email" name="email" value="{{ auth()->user()->email }}">
+            <input type="hidden" id="no_insurance_order_id" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+            <input type="hidden" id="no_insurance_amount" name="amount" value="{{ ($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) * 100 }}">
+            <input type="hidden" id="no_insurance_currency" name="currency" value="NGN">
+            <input type="hidden" id="no_insurance_metadata" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+            <input type="hidden" id="no_insurance_reference" name="reference" value="{{ Paystack::genTranxRef() }}">
+        </form>
+    
+        <form id="with_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+            @csrf
+    
+            <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+            <input type="hidden" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+            <input type="hidden" name="amount" value="{{ ($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->insurance_premium + $transaction->platform_fee) * 100 }}">
+            <input type="hidden" name="currency" value="NGN">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
+        </form>
     </div>
 
     {{-- Insurance Premium Explanation Modal --}}
@@ -67,6 +96,18 @@
             el.addEventListener('click', function(el) 
             {
                 document.getElementById("pay_insurance_premium").checked = true;
+            });
+
+            var element = document.getElementById('pay_button');
+            element.addEventListener('click', function(element)
+            {
+                if(document.getElementById("pay_insurance_premium").checked)
+                {
+                    document.getElementById('with_i$transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_feensurance').submit();
+                } else
+                {
+                    document.getElementById('no_insurance').submit();
+                }
             });
         }
 </script>
