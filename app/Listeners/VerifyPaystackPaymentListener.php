@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Payment;
+use App\Transfer;
 use Yabacon\Paystack\Event;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,21 +50,39 @@ class VerifyPaystackPaymentListener
                             'payment_successful' => true,
                         ]);
 
+                        $payment->transaction->update(['transaction_status' => 'paid',]);
+
                         event(new PaymentSuccessfulEvent($payment));
                     }
                 break;
 
+                // transfer.success
                 case 'transfer.success':
                     if('success' === $action->obj->data->status)
                     {
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
 
+                        $transfer->update(['transfer_status' => 'successful']);
                     }
                 break;
 
+                // transfer.failed
                 case 'transfer.failed':
                     if('failed' === $action->obj->data->status)
                     {
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
 
+                        $transfer->update(['transfer_status' => 'failed']);
+                    }
+                break;
+
+                // transfer.reversed
+                case 'transfer.reversed':
+                    if('reversed' === $action->obj->data->status)
+                    {
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+
+                        $transfer->update(['transfer_status' => 'reversed']);
                     }
                 break;
             }

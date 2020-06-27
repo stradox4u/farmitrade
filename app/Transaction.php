@@ -21,6 +21,11 @@ class Transaction extends Model
         return $this->hasOne('App\Payment');
     }
 
+    public function transfers()
+    {
+        return $this->hasMany('App\Transfer');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

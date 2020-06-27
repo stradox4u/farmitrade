@@ -75,7 +75,6 @@ class PaymentController extends Controller
 
         $transaction->update([
             'insurance_premium_paid' => $insurancePaid,
-            'transaction_status' => 'paid',
             ]);
         // dd($tranx->data);
         // Redirect to Paystack Checkout
