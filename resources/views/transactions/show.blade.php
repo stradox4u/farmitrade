@@ -8,59 +8,65 @@
         </div>
         <div class="card-body">
             <h4 class="card-title">Price of Goods:</h4>
-            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->price_of_goods, 2) }}</p>
+            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->price_of_goods / 100, 2) }}</p>
             <hr>
             <br>
 
             <h4 class="card-title">Price of Logistics:</h4>
-            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->price_of_logistics, 2) }}</p>
+            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->price_of_logistics / 100, 2) }}</p>
             <hr>
             <br>
 
             <h4 class="card-title">Platform Fee (5%):</h4>
-            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->platform_fee, 2) }}</p>
+            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->platform_fee / 100, 2) }}</p>
+            <hr>
+            <br>
+            
+            <h4 class="card-title">Total:</h4>
+            <p class="card-text">&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) / 100, 2) }}</p>
             <hr>
             <br>
 
             <h4 class="card-title">Insurance Premium:</h4>
-            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->insurance_premium, 2) }}</p>
+            <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->insurance_premium / 100, 2) }}</p>
             <div class="form-check row mb-3">
                 <div class="col d-flex flex-row">
                     <input id="pay_insurance_premium" type="checkbox" class="form-check-input" name="pay_insurance_premium" value="1">
                     <label for="pay_insurance_premium" class="form-check-label">
-                        <a href="#"><p class="text-dark text-decoration-none" data-toggle="modal" data-target="#insurancePremiumModal">Pay Insurance Premium</p></a>
+                        <a href="#"><p class="text-dark text-decoration-none" data-toggle="modal" data-target="#insurancePremiumModal">Pay with insurance</p></a>
                     </label>
                 </div>
             </div>
+            
         </div>
         <div class="card-footer">
-            <a id="pay_button" href="" class="btn btn-block btn-lg btn-success shadow-sm">Pay With Paystack</a>
+            <div class="container d-flex justify-content-between">
+                <form id="no_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+                    @csrf
+            
+                    <input type="hidden" id="no_insurance_email" name="email" value="{{ auth()->user()->email }}">
+                    <input type="hidden" id="no_insurance_order_id" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+                    <input type="hidden" id="no_insurance_amount" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee }}">
+                    <input type="hidden" id="no_insurance_metadata" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+                    <input type="hidden" id="insurance_paid" name="insurance_paid" value="false">
+                    <button type="submit" name="no_insurance" id="no_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col">Pay Without Insurance</button>
+                </form>
+            
+                <form id="with_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+                    @csrf
+            
+                    <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                    <input type="hidden" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+                    <input type="hidden" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->insurance_premium + $transaction->platform_fee }}">
+                    <input type="hidden" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+                    <input type="hidden" name="insurance_paid" value="true">
+                    <button type="submit" name="with_insurance" id="with_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col pl-3" disabled>Pay With Insurance</button>
+                </form>
+            </div>
         </div>
     </div>
     
-    <div class="container">
-        <form id="no_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
-            {{-- @csrf --}}
     
-            <input type="hidden" id="no_insurance_email" name="email" value="{{ auth()->user()->email }}">
-            <input type="hidden" id="no_insurance_order_id" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
-            <input type="hidden" id="no_insurance_amount" name="amount" value="{{ ($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) * 100 }}">
-            <input type="hidden" id="no_insurance_currency" name="currency" value="NGN">
-            <input type="hidden" id="no_insurance_metadata" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
-            <input type="hidden" id="no_insurance_reference" name="reference" value="{{ Paystack::genTranxRef() }}">
-        </form>
-    
-        <form id="with_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
-            @csrf
-    
-            <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-            <input type="hidden" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
-            <input type="hidden" name="amount" value="{{ ($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->insurance_premium + $transaction->platform_fee) * 100 }}">
-            <input type="hidden" name="currency" value="NGN">
-            <input type="hidden" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
-            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
-        </form>
-    </div>
 
     {{-- Insurance Premium Explanation Modal --}}
     <div class="modal fade" id="insurancePremiumModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -86,29 +92,33 @@
 </div>
 @endsection
 
-{{-- Some Javascript to enable the close and accept button --}}
 @section('extra-js')
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
-        window.onload = function()
-        {
-            var el = document.getElementById('close_accept');
+    window.onload = function()
+    {
+        // Some Javascript to enable the close and accept button 
+        var el = document.getElementById('close_accept');
             el.addEventListener('click', function(el) 
             {
                 document.getElementById("pay_insurance_premium").checked = true;
+                document.getElementById("with_insurance_submit").disabled = false;
             });
 
-            var element = document.getElementById('pay_button');
-            element.addEventListener('click', function(element)
+            // Javascript to enable and disable the pay with insurance button
+            var element = document.getElementById('pay_insurance_premium');
+            element.addEventListener('change', function(element)
             {
-                if(document.getElementById("pay_insurance_premium").checked)
+                var button = document.getElementById("with_insurance_submit");
+                if(button.disabled)
                 {
-                    document.getElementById('with_i$transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_feensurance').submit();
-                } else
+                    button.disabled = false;
+                } else 
                 {
-                    document.getElementById('no_insurance').submit();
+                    button.disabled = true;
                 }
             });
+           
         }
 </script>
 @endsection

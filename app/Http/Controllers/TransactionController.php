@@ -122,7 +122,14 @@ class TransactionController extends Controller
         ]);
 
         // Calculate Insurance Premium based on 0.65% of value of goods
-        $insurancePremium = number_format($data['price_of_goods'] * 0.0065, 2);
+        $insurancePremium = round($data['price_of_goods'] * 0.0065 * 100);
+
+        // Calculate Platform Fee based on 5% of value of goods
+        $platformFee = round($data['price_of_goods'] * 0.05 * 100);
+
+        // Convert prices to kobo before putting to database---------
+        $goodsPrice = round($data['price_of_goods'] * 100);
+        $logisticsPrice = round($data['price_of_logistics'] * 100);
 
         // Generate a unique transaction id
         $transactionId = $transaction->user_id . '-' . $transaction->listing->user_id . '-' . $transaction->produce . '/' . $transaction->quantity . '/' . $transaction->unit . '-' . Carbon::now()->toDateTimeString();
@@ -132,10 +139,10 @@ class TransactionController extends Controller
             'produce' => $data['produce'],
             'unit' => $data['unit'],
             'quantity' => $data['quantity'],
-            'price_of_goods' => $data['price_of_goods'],
-            'price_of_logistics' => $data['price_of_logistics'],
+            'price_of_goods' => $goodsPrice,
+            'price_of_logistics' => $logisticsPrice,
             'insurance_premium' => $insurancePremium,
-            'platform_fee' => $data['price_of_goods'] * 0.05,
+            'platform_fee' => $platformFee,
             'transaction_id_for_paystack' => $transactionId,
             'delivery_timeframe' => $data['delivery_timeframe'],
         ]);

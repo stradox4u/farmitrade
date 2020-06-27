@@ -10,7 +10,7 @@
 <p>You are hereby required to proceed to the link below to make payment, at your earliest convenience.</p>
 <br>
 @component('mail::panel')
-<a href="https://farmitrade.com.ng/transaction/{{ $transaction->id }}">Review and make payment.</a>
+<a href="https://farmitrade.com.ng/transactions/{{ $transaction->id }}">Review and make payment.</a>
 @endcomponent
 <p>Best regards,</p>
 <p>The Farmitrade&reg; Team.</p>

@@ -51,9 +51,11 @@ Route::middleware('auth')->group(function()
     
     Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
 
-    Route::get('transaction/{transaction}', 'TransactionController@show')->name('transaction.show');
+    Route::get('transactions/{transaction}', 'TransactionController@show')->name('transaction.show');
 });
 
-Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
+Route::post('/pay', 'PaymentController@payNow')->name('pay');
 
 Route::get('/success', 'PaymentController@handleGatewayCallback')->name('paystack.success');
+
+Route::webhooks('/webhook');

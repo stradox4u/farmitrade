@@ -16,7 +16,9 @@
         "intervention/image": "^2.5",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "spatie/laravel-webhook-client": "^2.7",
+        "yabacon/paystack-php": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

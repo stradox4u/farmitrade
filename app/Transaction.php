@@ -16,6 +16,11 @@ class Transaction extends Model
         return $this->belongsTo('App\Listing');
     }
 
+    public function payment()
+    {
+        return $this->hasOne('App\Payment');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

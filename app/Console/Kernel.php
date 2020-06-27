@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Bank;
 use App\Jobs\WeeklyNotifications;
+use App\Jobs\PopulateBanksTableJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -27,6 +29,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new WeeklyNotifications)->weekly()->wednesdays()->at('14:00');
+        $schedule->job(new PopulateBanksTableJob)->everyMinute()->when(function()
+        {
+            return (Bank::all()->count() == 0);
+        });
     }
 
     /**

@@ -17,6 +17,6 @@ class Profile extends Model
      * @var array
      */
     protected $fillable = [
-        'shipping_address', 'phone_number', 'billing_address', 'profile_image',
+        'shipping_address', 'phone_number', 'billing_address', 'profile_image', 'bank_name', 'account_number', 'account_verified', 'recipient_code',
     ];
 }

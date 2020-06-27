@@ -51,7 +51,35 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
+                        @if(auth()->user()->user_type == 'farmer')
+                            <div class="form-group row">
+                                
+                                <div class="col w-100">
+                                    <input id="bank_name" type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" value="{{ old('bank_name') }}" autocomplete="bank_name" autofocus placeholder="Bank Name">
+                                    
+                                    @error('bank_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                
+                                <div class="col w-100">
+                                    <input id="account_number" type="text" class="form-control @error('account_number') is-invalid @enderror" name="account_number" value="{{ old('account_number') }}" autocomplete="account_number" autofocus placeholder="Account Number">
+                                    
+                                    @error('account_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-group row">
 
                             <div class="col w-100">
