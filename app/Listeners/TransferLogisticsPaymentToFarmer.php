@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace App\Listeners;
 
-use App\Providers\PaymentSuccessfulEvent;
+use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

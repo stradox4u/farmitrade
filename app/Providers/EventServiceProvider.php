@@ -4,10 +4,14 @@ namespace App\Providers;
 
 use App\Events\ListingCreated;
 use Illuminate\Support\Facades\Event;
+use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\SendPossibleTransactions;
 use App\Events\WebhookReceivedFromPaystackEvent;
 use App\Listeners\VerifyPaystackPaymentListener;
+use App\Listeners\TransferLogisticsPaymentToFarmer;
+use App\Listeners\SendBuyerPaymentConfirmationEmail;
+use App\Listeners\SendFarmerPaymentConfirmationEmail;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

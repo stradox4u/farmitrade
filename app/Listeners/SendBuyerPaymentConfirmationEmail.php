@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Providers;
+namespace App\Listeners;
 
-use App\Providers\PaymentSuccessfulEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
+use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Mail\BuyerPaymentConfirmationEmail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendBuyerPaymentConfirmationEmail
+class SendBuyerPaymentConfirmationEmail implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -26,6 +28,13 @@ class SendBuyerPaymentConfirmationEmail
      */
     public function handle(PaymentSuccessfulEvent $event)
     {
-        //
+        $payment = $event->payment;
+        if($payment->transaction->user->user_type == 'buyer')
+        {
+            Mail::to($payment->transaction->user->email)->send(new BuyerPaymentConfirmationEmail($payment));
+        } else 
+        {
+            Mail::to($payment->transaction->listing->user->email)->send(new BuyerPaymentConfirmationEmail($payment));
+        }
     }
 }

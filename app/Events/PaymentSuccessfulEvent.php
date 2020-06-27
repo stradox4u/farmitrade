@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -14,14 +14,16 @@ class PaymentSuccessfulEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $payment;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($payment)
     {
-        //
+        $this->payment = $payment;
     }
 
     /**
