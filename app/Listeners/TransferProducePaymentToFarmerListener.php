@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\PaymentSuccessfulEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\ProduceReceivedEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TransferLogisticsPaymentToFarmer implements ShouldQueue
+class TransferProducePaymentToFarmerListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -21,18 +21,18 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  PaymentSuccessfulEvent  $event
+     * @param  object ProduceReceivedEvent $event
      * @return void
      */
-    public function handle(PaymentSuccessfulEvent $event)
+    public function handle(ProduceReceivedEvent $event)
     {
         // Get recipient code of the farmer in the relevant transaction
-        if($event->payment->transaction->user->user_type == 'farmer')
+        if($event->transaction->user->user_type == 'farmer')
         {
-            $recipientCode = $event->payment->transaction->user->profile->recipient_code;
+            $recipientCode = $event->transaction->user->profile->recipient_code;
         } else 
         {
-            $recipientCode = $event->payment->transaction->listing->user->recipient_code;
+            $recipientCode = $event->transaction->listing->user->recipient_code;
         }
 
         // Make a call to the Paystack Transfer Api to make the transfer
@@ -42,11 +42,11 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
 
             'source' => 'balance',
 
-            'amount' => $event->payment->transaction->price_of_logistics,
+            'amount' => $event->transaction->price_of_goods,
 
             'recipient' => $recipientCode,
 
-            'reason' => 'logistics for-' . $event->payment->transaction->transaction_id_for_paystack,
+            'reason' => 'produce payment-' . $event->transaction->transaction_id_for_paystack,
         ];
 
         $fields_string = http_build_query($fields);
@@ -88,10 +88,10 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
         $transferCode = $response['data']['transfer_code'];
 
         // Put Transfer to Table
-        $transaction = $event->payment->transaction;
+        $transaction = $event->transaction;
         $transfer = $transaction->transfers()->create([
-            'transfer_purpose' => 'logistics for-' . $transaction->transaction_id_for_paystack,
-            'amount' => $transaction->price_of_logistics,
+            'transfer_purpose' => 'produce-' . $transaction->transaction_id_for_paystack,
+            'amount' => $transaction->price_of_goods,
             'reference' => $reference,
             'transfer_code' => $transferCode,
         ]);

@@ -38,12 +38,13 @@
     {{-- Row of Buttons --}}
     <div class="container row d-flex justify-content-between mb-3 mx-auto">
         @if(auth()->user()->profile == [])
-        <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Create Your Profile</a>
+        <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Create Profile</a>
         @else
-        <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Edit Your Profile</a>
+        <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Edit Profile</a>
         @endif
-        <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View Listings From {{ auth()->user()->user_type == 'buyer' ? 'Farmers' : 'Buyers' }}</a>
-        <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Place a New Listing</a>
+        <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View {{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
+        <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Make Listing</a>
+        <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View Transactions</a>
     </div>
     {{-- End of Row of Buttons --}}
 
@@ -53,7 +54,6 @@
         <table class="table table-striped table-hover table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Produce</th>
                     <th scope="col">To Buy/Sell</th>
                     <th scope="col">Quantity</th>
@@ -63,9 +63,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(auth()->user()->listings as $listing)
+                @foreach($listings as $listing)
                 <tr>
-                    <td scope="row">{{ $loop->iteration }}</td>
                     <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ $listing->produce }}</td></a>
                     <td>{{ $listing->buy_sell }}</td>
                     <td>{{ $listing->quantity }}</td>
@@ -76,6 +75,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $listings->links() }}
     </div>
     {{-- End of My Listings Table --}}
 </div>

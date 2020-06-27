@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\PaymentSuccessfulEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\RetryTransferEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TransferLogisticsPaymentToFarmer implements ShouldQueue
+class RetryTransferListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -21,18 +21,19 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  PaymentSuccessfulEvent  $event
+     * @param  object RetryTransferEvent $event
      * @return void
      */
-    public function handle(PaymentSuccessfulEvent $event)
+    public function handle(RetryTransferEvent $event)
     {
-        // Get recipient code of the farmer in the relevant transaction
-        if($event->payment->transaction->user->user_type == 'farmer')
+        $transfer = $event->transfer;
+
+        if($transfer->payment->transaction->user->user_type == 'farmer')
         {
-            $recipientCode = $event->payment->transaction->user->profile->recipient_code;
+            $recipientCode = $transfer->payment->transaction->user->profile->recipient_code;
         } else 
         {
-            $recipientCode = $event->payment->transaction->listing->user->recipient_code;
+            $recipientCode = $transfer->payment->transaction->listing->user->profile->recipient_code;
         }
 
         // Make a call to the Paystack Transfer Api to make the transfer
@@ -42,11 +43,13 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
 
             'source' => 'balance',
 
-            'amount' => $event->payment->transaction->price_of_logistics,
+            'amount' => $event->transaction->price_of_goods,
 
             'recipient' => $recipientCode,
 
-            'reason' => 'logistics for-' . $event->payment->transaction->transaction_id_for_paystack,
+            'reason' => $transfer->transfer_purpose,
+
+            'reference' => $transfer->reference,
         ];
 
         $fields_string = http_build_query($fields);
@@ -84,16 +87,6 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
         $result = curl_exec($ch);
 
         $response = json_decode($result, true);
-        $reference = $response['data']['reference'];
-        $transferCode = $response['data']['transfer_code'];
-
-        // Put Transfer to Table
-        $transaction = $event->payment->transaction;
-        $transfer = $transaction->transfers()->create([
-            'transfer_purpose' => 'logistics for-' . $transaction->transaction_id_for_paystack,
-            'amount' => $transaction->price_of_logistics,
-            'reference' => $reference,
-            'transfer_code' => $transferCode,
-        ]);
+        logger($response);
     }
 }

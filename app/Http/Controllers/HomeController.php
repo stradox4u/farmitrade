@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $listings = auth()->user()->listings()->paginate(10);
+        return view('home', compact('listings'));
     }
 }

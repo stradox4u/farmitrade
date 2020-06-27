@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Listing;
 use Carbon\Carbon;
 use App\Transaction;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Mail\MakePaymentNowEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InterestInYourListingMail;
+use App\Mail\YourProduceIsOnTheWayMail;
 
 class TransactionController extends Controller
 {
@@ -19,7 +21,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transaction::where('user_id', auth()->id())->orWhere(function($query) 
+        {
+            $listings = Listing::where('user_id', auth()->id())->pluck('id');
+            $query->whereIn('listing_id', $listings);
+        })->paginate(10);
+
+        return view('transactions.index', compact('transactions'));
     }
 
     /**
@@ -57,6 +65,8 @@ class TransactionController extends Controller
         request()->session()->flash('success', 'The poster has been contacted successfully.');
         return redirect(route('home'));
     }
+
+
 
     /**
      * Display the specified resource.
@@ -159,5 +169,62 @@ class TransactionController extends Controller
         Mail::to($buyerEmail)->send(new MakePaymentNowEmail($transaction));
 
         return redirect(route('home'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function markShipped(Transaction $transaction)
+    {
+        // Get buyer email
+        if($transaction->user->user_type == 'buyer')
+        {
+            $buyer = $transaction->user;
+        } else
+        {
+            $buyer = $transaction->listing->user;
+        }
+
+        // Update transaction status, and send email to the buyer
+        $transaction->update(['transaction_status' => 'shipped']);
+        Mail::to($buyer->email)->send(new YourProduceIsOnTheWayMail($transaction, $buyer));
+        return back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function markDelivered(Transaction $transaction)
+    {
+        // Update transaction status and listing filled status
+        $transaction->update(['transaction_status' => 'delivered']);
+        $transaction->listing->update(['filled' => true]);
+
+        // Event to release the farmer's produce payment and send him a mail for the same
+        event(new ProduceRecievedEvent($transaction));
+        return back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function makeClaim(Transaction $transaction)
+    {
+        // Update transaction status
+        $transaction->update(['transaction_status' => 'in contest']);
+
+        // Send email to support
+        Mail::to('mediator@farmitrade.com.ng')->send(new ContestedTransactionMail($transaction));
+
+        return back();
     }
 }

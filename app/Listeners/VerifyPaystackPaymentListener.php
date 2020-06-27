@@ -73,6 +73,9 @@ class VerifyPaystackPaymentListener
                         $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
 
                         $transfer->update(['transfer_status' => 'failed']);
+
+                        // Retry transfer
+                        event(new RetryTransferEvent($transfer));
                     }
                 break;
 
@@ -83,6 +86,9 @@ class VerifyPaystackPaymentListener
                         $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
 
                         $transfer->update(['transfer_status' => 'reversed']);
+
+                        // Retry Transfer
+                        event(new RetryTransferEvent($transfer));
                     }
                 break;
             }

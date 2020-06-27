@@ -52,6 +52,14 @@ Route::middleware('auth')->group(function()
     Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
 
     Route::get('transactions/{transaction}', 'TransactionController@show')->name('transaction.show');
+    
+    Route::get('users/{user}/transactions', 'TransactionController@index')->name('transaction.index');
+
+    Route::patch('transaction/{transaction}/shipped', 'TransactionController@markShipped')->name('transaction.shipped');
+    
+    Route::patch('transaction/{transaction}/received', 'TransactionController@markDelivered')->name('transaction.received');
+
+    Route::patch('transaction/{transaction}/contest', 'TransactionController@makeClaim')->name('transaction.contest');
 });
 
 Route::post('/pay', 'PaymentController@payNow')->name('pay');
