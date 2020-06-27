@@ -30,7 +30,7 @@
                             <form action="{{ route('transaction.shipped', $transaction->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="col btn btn-block btn-lg btn-success shadow-sm" @if($transaction->payment == null && $transaction->transaction_status !== 'shipped') disabled @endif>Shipped</button>
+                                <button type="submit" class="col btn btn-block btn-lg btn-success shadow-sm" @if($transaction->payment == null || $transaction->transaction_status == 'shipped' || $transaction->transaction_status == 'delivered' || $transaction->transaction_status == 'in contest') disabled @endif>Shipped</button>
                             </form>
                         </div>
 

@@ -8,7 +8,9 @@ use App\Transaction;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Mail\MakePaymentNowEmail;
+use App\Events\ProduceReceivedEvent;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContestedTransactionMail;
 use App\Mail\InterestInYourListingMail;
 use App\Mail\YourProduceIsOnTheWayMail;
 
@@ -191,6 +193,9 @@ class TransactionController extends Controller
         // Update transaction status, and send email to the buyer
         $transaction->update(['transaction_status' => 'shipped']);
         Mail::to($buyer->email)->send(new YourProduceIsOnTheWayMail($transaction, $buyer));
+
+        // Send email to insurer if insurance premium was paid
+
         return back();
     }
 
@@ -207,7 +212,10 @@ class TransactionController extends Controller
         $transaction->listing->update(['filled' => true]);
 
         // Event to release the farmer's produce payment and send him a mail for the same
-        event(new ProduceRecievedEvent($transaction));
+        event(new ProduceReceivedEvent($transaction));
+
+        // Send email to insurer if insurance premium was paid
+
         return back();
     }
 
