@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Bank;
 use App\Events\ProfileUpdatedEvent;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -98,7 +99,11 @@ class CreatePaystackRecipientListener implements ShouldQueue
         {
             $recipientCode = $response['data']['recipient_code'];
 
-            $event->profile->update(['recipient_code' => $recipientCode]);
+            $event->profile->update([
+                'recipient_code' => $recipientCode,
+                'bank_name' => Hash::make($event->profile->bank_name),
+                'account_number' => Hash::make($event->profile->account_number),
+            ]);
 
             logger($event->profile->user->name . ' has generated a recipient code. The code is ' . $recipientCode);
         }

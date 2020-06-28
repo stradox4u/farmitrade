@@ -196,6 +196,7 @@ class TransactionController extends Controller
 
         // Send email to insurer if insurance premium was paid
 
+        request()->session()->flash('success', 'The transaction has been marked as shipped.');
         return back();
     }
 
@@ -216,6 +217,7 @@ class TransactionController extends Controller
 
         // Send email to insurer if insurance premium was paid
 
+        request()->session()->flash('success', 'The transaction has been marked as delivered.');
         return back();
     }
 
@@ -233,6 +235,7 @@ class TransactionController extends Controller
         // Send email to support
         Mail::to('mediator@farmitrade.com.ng')->send(new ContestedTransactionMail($transaction));
 
+        request()->session()->flash('success', 'Your complaint has been registered, and a member of our team will be contacting you shortly.');
         return back();
     }
 }
