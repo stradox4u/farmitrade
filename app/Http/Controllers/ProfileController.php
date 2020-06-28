@@ -69,7 +69,10 @@ class ProfileController extends Controller
             'profile_image' => $imagePath,
         ]);
 
-        event(new ProfileCreatedEvent($profile));
+        if(auth()->user()->user_type == 'farmer')
+        {
+            event(new ProfileCreatedEvent($profile));
+        }
 
         return redirect(route('profile.show', $profile->id));
     }
@@ -143,7 +146,10 @@ class ProfileController extends Controller
             $imageArray ?? []
         ));
 
-        event(new ProfileUpdatedEvent($profile));
+        if(auth()->user()->user_type == 'farmer')
+        {
+            event(new ProfileUpdatedEvent($profile));
+        }
         
         return redirect(route('profile.show', compact('profile')));
     }

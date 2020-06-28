@@ -28,12 +28,12 @@ class RetryTransferListener implements ShouldQueue
     {
         $transfer = $event->transfer;
 
-        if($transfer->payment->transaction->user->user_type == 'farmer')
+        if($transfer->transaction->user->user_type == 'farmer')
         {
-            $recipientCode = $transfer->payment->transaction->user->profile->recipient_code;
+            $recipientCode = $transfer->transaction->user->profile->recipient_code;
         } else 
         {
-            $recipientCode = $transfer->payment->transaction->listing->user->profile->recipient_code;
+            $recipientCode = $transfer->transaction->listing->user->profile->recipient_code;
         }
 
         // Make a call to the Paystack Transfer Api to make the transfer
