@@ -52,7 +52,7 @@ class VerifyPaystackPaymentListener implements ShouldQueue
 
                         logger('Successful payment logged.');
 
-                        $payment->transaction()->update(['transaction_status' => 'paid',]);
+                        $payment->transaction->update(['transaction_status' => 'paid',]);
 
                         event(new PaymentSuccessfulEvent($payment));
                     }
