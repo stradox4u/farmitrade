@@ -39,9 +39,6 @@ class EventServiceProvider extends ServiceProvider
         ListingCreated::class => [
             SendPossibleTransactions::class,
         ],
-        WebhookReceivedFromPaystackEvent::class => [
-            VerifyPaystackPaymentListener::class,
-        ],
         ProfileCreatedEvent::class => [
             VerifyBankAccountListener::class,
         ],

@@ -14,7 +14,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\WebhookReceivedFromPaystackEvent;
 use Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 
 class ProcessPaystackWebhookJob extends SpatieProcessWebhookJob implements ShouldQueue
@@ -34,80 +33,74 @@ class ProcessPaystackWebhookJob extends SpatieProcessWebhookJob implements Shoul
 
         $paystackReference = $payload['data']['reference'];
 
-        logger($paystackReference);
+        // logger($payload);
 
-        // event(new WebhookReceivedFromPaystackEvent($paystackReference));
-        $action = Event::capture();
+        
         http_response_code(200);
-        logger($action->obj);
 
-        $my_keys = ['test' => config('paystack.secret_key')];
-
-        $owner = $action->discoverOwner($my_keys);
-
-        if($owner)
+        // Handle each webhook event
+        switch($payload['event'])
         {
-            switch($action->obj->event)
-            {
-                // charge.success
-                case 'charge.success':
-                    if('success' === $action->obj->data->status)
-                    {
-                        $payment = Payment::where('paystack_reference', $paystackReference)->first();
-                        $payment->update([
-                            'payment_successful' => true,
-                        ]);
+            // charge.success
+            case 'charge.success':
+                if('success' === $payload['data']['status'])
+                {
+                    $payment = Payment::where('paystack_reference', $paystackReference)->first();
+                    $payment->update([
+                        'payment_successful' => true,
+                    ]);
 
-                        logger('Successful payment logged.');
+                    logger('Successful payment logged.');
 
-                        $payment->transaction->update(['transaction_status' => 'paid',]);
+                    $payment->transaction->update(['transaction_status' => 'paid',]);
 
-                        event(new PaymentSuccessfulEvent($payment));
-                    }
-                break;
+                    event(new PaymentSuccessfulEvent($payment));
+                }
+            break;
 
-                // transfer.success
-                case 'transfer.success':
-                    if('success' === $action->obj->data->status)
-                    {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
+            // transfer.success
+            case 'transfer.success':
+                if('success' === $payload['data']['status'])
+                {
+                    $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
-                        logger('Successful transfer logged.');
+                    logger('Successful transfer logged.');
 
-                        $transfer->update(['transfer_status' => 'successful']);
-                    }
-                break;
+                    $transfer->update(['transfer_status' => 'successful']);
+                }
+            break;
 
-                // transfer.failed
-                case 'transfer.failed':
-                    if('failed' === $action->obj->data->status)
-                    {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
+            // transfer.failed
+            case 'transfer.failed':
+                if('failed' === $payload['data']['status'])
+                {
+                    $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
-                        logger('Failed transfer logged.');
+                    logger('Failed transfer logged.');
 
-                        $transfer->update(['transfer_status' => 'failed']);
+                    $transfer->update(['transfer_status' => 'failed']);
 
-                        // Retry transfer
-                        event(new RetryTransferEvent($transfer));
-                    }
-                break;
+                    // Retry transfer
+                    event(new RetryTransferEvent($transfer));
+                }
+            break;
 
-                // transfer.reversed
-                case 'transfer.reversed':
-                    if('reversed' === $action->obj->data->status)
-                    {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
+            // transfer.reversed
+            case 'transfer.reversed':
+                if('reversed' === $payload['data']['status'])
+                {
+                    $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
-                        logger('Reversed transfer logged');
+                    logger('Reversed transfer logged');
 
-                        $transfer->update(['transfer_status' => 'reversed']);
+                    $transfer->update(['transfer_status' => 'reversed']);
 
-                        // Retry Transfer
-                        event(new RetryTransferEvent($transfer));
-                    }
-                break;
-            }
+                    // Retry Transfer
+                    event(new RetryTransferEvent($transfer));
+                }
+            break;
         }
+        
+        
     }
 }

@@ -84,6 +84,7 @@ class TransferLogisticsPaymentToFarmer implements ShouldQueue
         $result = curl_exec($ch);
 
         $response = json_decode($result, true);
+        // logger($response);
         $reference = $response['data']['reference'];
         $transferCode = $response['data']['transfer_code'];
 

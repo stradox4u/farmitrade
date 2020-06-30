@@ -1,7 +1,7 @@
 @component('mail::message')
 <p>Hello {{ $payment->transaction->user->user_type == 'buyer' ? $payment->transaction->user->name : $payment->transaction->listing->user->name }},</p>
 <br>
-<p>We have recieved your payment of &#8358;&nbsp;{{ $payment->total_amount }} for your transaction with id:&nbsp;{{ $payment->transaction->transaction_id_for_paystack }}, to purchase {{ $payment->transaction->quantity }}&nbsp;{{ $payment->transaction->unit }} of {{ $payment->transaction->produce }}.</p>
+<p>We have recieved your payment of &#8358;&nbsp;{{ number_format($payment->total_amount / 100, 2) }} for your transaction with id:&nbsp;{{ $payment->transaction->transaction_id_for_paystack }}, to purchase {{ $payment->transaction->quantity }}&nbsp;{{ $payment->transaction->unit }} of {{ $payment->transaction->produce }}.</p>
 <br>
 <p>You will be notified once the farmer ships it.</p>
 @component('mail::panel')
