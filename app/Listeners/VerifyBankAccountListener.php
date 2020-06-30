@@ -52,7 +52,7 @@ class VerifyBankAccountListener implements ShouldQueue
 
             CURLOPT_HTTPHEADER => array(
 
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer " .  config('paystack.secret_key'),
 
             "Cache-Control: no-cache",
 
