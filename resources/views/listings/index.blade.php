@@ -11,11 +11,11 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th>Produce</th>
-                        <th>Location</th>
-                        <th>Quantity</th>
-                        <th>Unit</th>
-                        <th>Unit Price (&#8358;)</th>
+                        <th scope="col">Produce</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Unit Price (&#8358;)</th>
                     </tr>
                 </thead>
                 <tbody>
