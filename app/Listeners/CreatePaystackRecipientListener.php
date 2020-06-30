@@ -31,7 +31,7 @@ class CreatePaystackRecipientListener implements ShouldQueue
     {
         // Check if the user's account has been verified, and do so if not
         $profile = $event->profile;
-        if($event->profile->account_verified == false)
+        if(!$event->profile->account_verified)
         {
             event(new ProfileCreatedEvent($profile));
         }
@@ -39,7 +39,7 @@ class CreatePaystackRecipientListener implements ShouldQueue
         // Connect to Paystack Api to generate recipient code
         $url = "https://api.paystack.co/transferrecipient";
 
-        $bank = Bank::where('bank_name', 'like', $event->profile->bank_name);
+        $bank = Bank::where('bank_name', 'like', $event->profile->bank_name)->first();
         $bankCode = $bank->code;
 
         $fields = [
@@ -74,7 +74,7 @@ class CreatePaystackRecipientListener implements ShouldQueue
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 
-            "Authorization: Bearer SECRET_KEY",
+            "Authorization: Bearer " .  config('paystack.secret_key'),
 
             "Cache-Control: no-cache",
 

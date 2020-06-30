@@ -34,6 +34,8 @@ class VerifyBankAccountListener implements ShouldQueue
         $bankCode = $bank->code;
         $curl = curl_init();
 
+        logger('ProfileCreatedEvent Fired Successfully');
+
         curl_setopt_array($curl, array(
 
             CURLOPT_URL => "https://api.paystack.co/bank/resolve?account_number= . $accountNumber . &bank_code= . $bankCode . ",
