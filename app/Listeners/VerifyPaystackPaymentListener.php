@@ -50,6 +50,8 @@ class VerifyPaystackPaymentListener
                             'payment_successful' => true,
                         ]);
 
+                        logger('Successful payment logged.');
+
                         $payment->transaction->update(['transaction_status' => 'paid',]);
 
                         event(new PaymentSuccessfulEvent($payment));
@@ -62,6 +64,8 @@ class VerifyPaystackPaymentListener
                     {
                         $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
 
+                        logger('Successful transfer logged.');
+
                         $transfer->update(['transfer_status' => 'successful']);
                     }
                 break;
@@ -71,6 +75,8 @@ class VerifyPaystackPaymentListener
                     if('failed' === $action->obj->data->status)
                     {
                         $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+
+                        logger('Failed transfer logged.');
 
                         $transfer->update(['transfer_status' => 'failed']);
 
@@ -84,6 +90,8 @@ class VerifyPaystackPaymentListener
                     if('reversed' === $action->obj->data->status)
                     {
                         $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+
+                        logger('Reversed transfer logged');
 
                         $transfer->update(['transfer_status' => 'reversed']);
 
