@@ -38,13 +38,23 @@
     {{-- Row of Buttons --}}
     <div class="container row d-flex justify-content-between mb-3 mx-auto">
         @if(auth()->user()->profile == [])
-        <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Create Profile</a>
+        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-block btn-success btn-lg">Create Profile</a>
+        </div>
         @else
-        <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Edit Profile</a>
+        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3"> 
+            <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-block btn-success btn-lg">Edit Profile</a>
+        </div>
         @endif
-        <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View {{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
-        <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">Make Listing</a>
-        <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-success btn-lg mx-3 shadow-sm col">View Transactions</a>
+        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">View {{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
+        </div>
+        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">Make Listing</a>
+        </div>
+        <div class="mb-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">View Transactions</a>
+        </div>
     </div>
     {{-- End of Row of Buttons --}}
 
