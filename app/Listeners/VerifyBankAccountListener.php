@@ -28,17 +28,17 @@ class VerifyBankAccountListener implements ShouldQueue
      */
     public function handle(ProfileCreatedEvent $event)
     {
+        $profile = $event->profile;
         // Connect to Paystack Api to verify account number
-        $accountNumber = $event->profile->account_number;
-        $bank = Bank::where('bank_name', 'like', $event->profile->bank_name)->first();
+        $accountNumber = $profile->account_number;
+        $bank = Bank::where('name', 'like', $profile->bank_name)->first();
         $bankCode = $bank->code;
+        // logger($bankCode);
         $curl = curl_init();
-
-        logger('ProfileCreatedEvent Fired Successfully');
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => "https://api.paystack.co/bank/resolve?account_number= . $accountNumber . &bank_code= . $bankCode . ",
+            CURLOPT_URL => "https://api.paystack.co/bank/resolve?account_number=" . $accountNumber . "&bank_code=" . $bankCode,
 
             CURLOPT_RETURNTRANSFER => true,
 
@@ -79,15 +79,16 @@ class VerifyBankAccountListener implements ShouldQueue
         } else {
 
             $result = json_decode($response, true);
+            // logger($result);
 
             // Update account_verified status in database
             if($result['message'] == 'Account number resolved')
             {
-                $profile = $event->profile->update(['account_verified' => true]);
+                $profile->update(['account_verified' => true]);
+                
+                logger($profile->user->name . ' has had their account verified.');
                 
                 event(new ProfileUpdatedEvent($profile));
-
-                logger($event->profile->user->name . ' has had their account verified.');
             }
             
         }

@@ -113,7 +113,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        // dd($request);
+        // dd($profile);
         $data = $request->validate([
             'shipping_address1' => ['nullable', 'string', 'max:85'],
             'shipping_address2' => ['nullable', 'string', 'max:85'],
@@ -134,7 +134,8 @@ class ProfileController extends Controller
          ]);
 
         // Handle Image
-        if (request('profile_image')) {
+        if (request('profile_image')) 
+        {
             $imagePath = request('profile_image')->store('profile', 'public');
 
             $image = Image::make(public_path("storage/{$imagePath}"))->fit(900, 900);
@@ -142,18 +143,18 @@ class ProfileController extends Controller
 
             $imageArray = ['profile_image' => $imagePath];
         }
-
-        $profile = auth()->user()->profile->update(array_merge(
+        
+        $profile->update(array_merge(
             $updateData, 
             $imageArray ?? []
         ));
+        // dd($profile);
 
         if(auth()->user()->user_type == 'farmer')
         {
             event(new ProfileUpdatedEvent($profile));
         }
-        
-        return redirect(route('profile.show', compact('profile')));
+        return redirect(route('profile.show', $profile->id, compact('profile')));
     }
 
     /**
