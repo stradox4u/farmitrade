@@ -45,7 +45,7 @@ class VerifyPaystackPaymentListener
                 case 'charge.success':
                     if('success' === $action->obj->data->status)
                     {
-                        $payment = Payment::where('paystack_reference', $paystackReference);
+                        $payment = Payment::where('paystack_reference', $paystackReference)->first();
                         $payment->update([
                             'payment_successful' => true,
                         ]);
@@ -62,7 +62,7 @@ class VerifyPaystackPaymentListener
                 case 'transfer.success':
                     if('success' === $action->obj->data->status)
                     {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
                         logger('Successful transfer logged.');
 
@@ -74,7 +74,7 @@ class VerifyPaystackPaymentListener
                 case 'transfer.failed':
                     if('failed' === $action->obj->data->status)
                     {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
                         logger('Failed transfer logged.');
 
@@ -89,7 +89,7 @@ class VerifyPaystackPaymentListener
                 case 'transfer.reversed':
                     if('reversed' === $action->obj->data->status)
                     {
-                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code);
+                        $transfer = Transfer::where('transfer_code', $action->obj->data->transfer_code)->first();
 
                         logger('Reversed transfer logged');
 
