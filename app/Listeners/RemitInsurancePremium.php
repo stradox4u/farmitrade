@@ -5,7 +5,6 @@ namespace App\Listeners;
 use Illuminate\Support\Facades\Mail;
 use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Mail\BuyerPaymentConfirmationEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendBuyerPaymentConfirmationEmail implements ShouldQueue
