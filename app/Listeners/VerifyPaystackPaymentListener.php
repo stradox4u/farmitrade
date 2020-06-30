@@ -32,6 +32,7 @@ class VerifyPaystackPaymentListener implements ShouldQueue
         $paystackReference = $event->paystackReference;
         $action = Event::capture();
         http_response_code(200);
+        logger($action->obj);
 
         $my_keys = ['test' => config('paystack.secret_key')];
 
