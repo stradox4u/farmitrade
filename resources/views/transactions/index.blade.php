@@ -60,7 +60,7 @@
                             <form action="{{ route('transaction.contest', $transaction->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="col btn btn-block btn-lg btn-danger shadow-sm" @if($transaction->transaction_status == 'in contest') disabled @endif>Make Claim</button>
+                                <button type="submit" class="col btn btn-block btn-lg btn-danger shadow-sm" @if($transaction->transaction_status == 'in contest' || $transaction->transaction_status == 'delivered') disabled @endif>Make Claim</button>
                             </form>
                         </div>
                         
