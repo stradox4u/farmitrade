@@ -144,7 +144,7 @@ class TransactionController extends Controller
         $logisticsPrice = round($data['price_of_logistics'] * 100);
 
         // Generate a unique transaction id
-        $transactionId = $transaction->user_id . '-' . $transaction->listing->user_id . '-' . $transaction->produce . '/' . $data['quantity'] . '/' . $transaction->unit . '-' . Carbon::now()->toDateTimeString();
+        $transactionId = $transaction->user_id . '/' . $transaction->listing->user_id . '|' . $transaction->produce . '|' . $data['quantity'] . '|' . $transaction->unit . '/' . Carbon::now()->toDateTimeString();
 
         // Update Transaction in database
         $transaction->update([
