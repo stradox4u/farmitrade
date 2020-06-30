@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <div class="card">
+        @if(auth()->user()->listings->count() == 0)
+        <div class="card-header">
+            <p>Sorry, you have to make some listings first, to enable us know what exactly you require.</p>
+        </div>
+        @else
         <div class="card-header">
             <h3>{{ auth()->user()->user_type == 'buyer' ? 'Here are Items Available for Sale' : 'Here are Open Orders You Could Fill' }}</h3>
         </div>
@@ -32,6 +37,7 @@
                 </tbody>
             </table>
         </div>
+        @endif
     </div>
 </div>
 @endsection
