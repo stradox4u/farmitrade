@@ -7,7 +7,7 @@ use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendBuyerPaymentConfirmationEmail implements ShouldQueue
+class RemitInsurancePremium implements ShouldQueue
 {
     /**
      * Create the event listener.
