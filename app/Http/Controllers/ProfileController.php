@@ -62,14 +62,26 @@ class ProfileController extends Controller
         // Store the data
         $user = User::where('id', auth()->id())->first();
 
-        $profile = $user->profile()->create([
-            'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
-            'phone_number' => $data['phone_number'],
-            'bank_name' => $data['bank_name'],
-            'account_number' => $data['account_number'],
-            'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
-            'profile_image' => $imagePath,
-        ]);
+        if(auth()->user()->user_type == 'farmer')
+        {
+            $profile = $user->profile()->create([
+                'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+                'phone_number' => $data['phone_number'],
+                'bank_name' => $data['bank_name'],
+                'account_number' => $data['account_number'],
+                'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+                'profile_image' => $imagePath,
+            ]);
+        } else 
+        {
+            $profile = $user->profile()->create([
+                'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+                'phone_number' => $data['phone_number'],
+                'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+                'profile_image' => $imagePath,
+            ]);
+        }
+        
 
         if(auth()->user()->user_type == 'farmer')
         {
@@ -125,13 +137,23 @@ class ProfileController extends Controller
             'profile_image' => ['nullable', 'image'],
         ]);
 
-        $updateData = ([
-            'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
-            'phone_number' => $data['phone_number'],
-            'bank_name' => $data['bank_name'],
-            'account_number' => $data['account_number'],
-            'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
-         ]);
+        if(auth()->user()->user_type == 'farmer')
+        {
+            $updateData = ([
+                'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+                'phone_number' => $data['phone_number'],
+                'bank_name' => $data['bank_name'],
+                'account_number' => $data['account_number'],
+                'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+             ]);
+        } else 
+        {
+            $updateData = ([
+                'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
+                'phone_number' => $data['phone_number'],
+                'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
+             ]);
+        }
 
         // Handle Image
         if (request('profile_image')) 
