@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\WebhookReceivedFromPaystackEvent;
 
-class VerifyPaystackPaymentListener
+class VerifyPaystackPaymentListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -52,7 +52,7 @@ class VerifyPaystackPaymentListener
 
                         logger('Successful payment logged.');
 
-                        $payment->transaction->update(['transaction_status' => 'paid',]);
+                        $payment->transaction()->update(['transaction_status' => 'paid',]);
 
                         event(new PaymentSuccessfulEvent($payment));
                     }
