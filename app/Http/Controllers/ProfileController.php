@@ -6,6 +6,7 @@ use App\User;
 use App\Profile;
 use Illuminate\Http\Request;
 use App\Events\ProfileCreatedEvent;
+use App\Events\ProfileUpdatedEvent;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
