@@ -9,7 +9,7 @@
 @foreach($relevantListings as $relevantListing)
 @component('mail::panel')
     
-    <h2>{{ $relevantListing->quantity }}&nbsp;{{ $relevantListing->unit }}&nbsp; of&nbsp;<a href="https://farmitrade.com.ng/listing/{{ $relevantListing->id) }}">{{ $relevantListing->produce }}.</a></h2>
+    <h2>{{ $relevantListing->quantity }}&nbsp;{{ $relevantListing->unit }}&nbsp; of&nbsp;<a href="https://farmitrade.com.ng/listing/{{ $relevantListing->id }}">{{ $relevantListing->produce }}.</a></h2>
     <span><h3>Location:&nbsp;</h3><p>{{ $relevantListing->location }}</p></span>
     <br>
     <span><h3>Unit Price:&nbsp;</h3><p>{{ $relevantListing->unit_price }}</p></span>
