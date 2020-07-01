@@ -16,7 +16,11 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $userListingsProduce = auth()->user()->listings()->pluck('produce')->toArray();
+        // Get all of the logged in user's listings produce
+        $userListingsProduce = auth()->user()->listings()->where('filled', false)->pluck('produce')->toArray();
+        // dd($userListingsProduce);
+
+        // Get opposing listings that match
         if(auth()->user()->user_type == 'farmer')
         {
             $listings = Listing::whereIn('produce', $userListingsProduce)
@@ -37,6 +41,32 @@ class ListingController extends Controller
                     ])->paginate(10);
         }
 
+        // If user has not created a profile, redirect them to profile creation page
+        if(auth()->user()->profile == null)
+        {
+            request()->session()->flash('warning', 'You must create a profile first.');
+            return redirect(route('profile.create', auth()->id()));
+        }
+
+        // If user has no listings, redirect back
+        $userListings = Listing::where([
+            ['filled', false],
+            ['user_id', auth()->id()],
+        ])->get();
+
+        if($userListings->isEmpty())
+        {
+            request()->session()->flash('warning', 'You need to create some listings, so that we can match you with other listings.');
+            return back();
+        }
+
+        // If no matching listings are found, redirect back to dashboard
+        if($listings->isEmpty())
+        {
+            request()->session()->flash('warning', 'None of our current active listings match any of yours, please check back later.');
+            return back();
+        }
+
         return view('listings.index', compact('listings'));
     }
 
@@ -47,6 +77,11 @@ class ListingController extends Controller
      */
     public function create()
     {
+        if(auth()->user()->profile == null)
+        {
+            request()->session()->flash('warning', 'You must create a profile first.');
+            return redirect(route('profile.create', auth()->id()));
+        }
         return view('listings.create');
     }
 
