@@ -67,3 +67,7 @@ Route::post('/pay', 'PaymentController@payNow')->name('pay');
 Route::get('/success', 'PaymentController@handleGatewayCallback')->name('paystack.success');
 
 Route::webhooks('/webhook');
+
+Route::get('/contact', 'ContactUsController@create')->name('contact.create');
+
+Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');

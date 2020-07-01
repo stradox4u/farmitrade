@@ -22,7 +22,7 @@
             </div>
     
             <div class="col-md-3 flex-shrink-1">
-                <a href="/contact" class="text-decoration-none text-dark">Contact Us</a>
+                <a href="{{ route('contact.create') }}" class="text-decoration-none text-dark">Contact Us</a>
             </div>
         </div>
     </div>
