@@ -19,7 +19,7 @@ class ListingController extends Controller
         $userListingsProduce = auth()->user()->listings()->pluck('produce')->toArray();
         if(auth()->user()->user_type == 'farmer')
         {
-            $listings = Listing::whereIn('produce', $userListingsProduce)
+            $listings = Listing::whereIn('produce', 'like', $userListingsProduce)
                     ->where([
                         ['buy_sell', 'buy'],
                         ['filled', false],
@@ -29,7 +29,7 @@ class ListingController extends Controller
 
         if(auth()->user()->user_type == 'buyer')
         {
-            $listings = Listing::whereIn('produce', $userListingsProduce)
+            $listings = Listing::whereIn('produce', 'like', $userListingsProduce)
                     ->where([
                         ['buy_sell', 'sell'],
                         ['filled', false],
