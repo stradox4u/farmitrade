@@ -36,6 +36,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $listings->links() }}
         </div>
         @endif
     </div>

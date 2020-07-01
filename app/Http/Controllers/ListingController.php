@@ -21,7 +21,7 @@ class ListingController extends Controller
             $listings = Listing::where([
                 ['buy_sell', 'buy'],
                 ['filled', false],
-            ])->get();
+            ])->paginate(10);
         }
 
         if(auth()->user()->user_type == 'buyer')
@@ -29,7 +29,7 @@ class ListingController extends Controller
             $listings = Listing::where([
                 ['buy_sell', 'sell'],
                 ['filled', false],
-            ])->get();
+            ])->paginate(10);
         }
 
         return view('listings.index', compact('listings'));
