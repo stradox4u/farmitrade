@@ -68,7 +68,7 @@
                 <h3>My Open Listings</h3>
                 <a href="{{ route('home', ['list' => 'all']) }}" class="btn btn-light shadow-sm">All My Listings</a>
                 @if(request()->list == 'all')
-                    <a href="{{ route('home') }}" class="btn btn-light btn-lg shadow-sm">Go Back</a>
+                    <a href="{{ route('home') }}" class="btn btn-light shadow-sm">Go Back</a>
                 @endif
             </div>
             <table class="table table-striped table-hover table-light">
