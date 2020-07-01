@@ -51,13 +51,13 @@
             </div>
             @endif
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">View {{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
+                <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">{{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
             </div>
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3">
                 <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">Make Listing</a>
             </div>
             <div class="py-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">View Transactions</a>
+                <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">My Transactions</a>
             </div>
         </div>
         {{-- End of Row of Buttons --}}
@@ -66,7 +66,7 @@
         <div class="container col">
             <div class="d-flex justify-content-between p-3 bg-light">
                 <h3>My Open Listings</h3>
-                <a href="{{ route('home', ['list' => 'all']) }}" class="btn btn-light btn-lg shadow-sm">View All Listings</a>
+                <a href="{{ route('home', ['list' => 'all']) }}" class="btn btn-light shadow-sm">All My Listings</a>
                 @if(request()->list == 'all')
                     <a href="{{ route('home') }}" class="btn btn-light btn-lg shadow-sm">Go Back</a>
                 @endif
