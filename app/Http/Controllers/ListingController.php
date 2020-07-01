@@ -16,20 +16,25 @@ class ListingController extends Controller
      */
     public function index()
     {
+        $userListingsProduce = auth()->user()->listings()->pluck('produce')->toArray();
         if(auth()->user()->user_type == 'farmer')
         {
-            $listings = Listing::where([
-                ['buy_sell', 'buy'],
-                ['filled', false],
-            ])->paginate(10);
+            $listings = Listing::whereIn('produce', $userListingsProduce)
+                    ->where([
+                        ['buy_sell', 'buy'],
+                        ['filled', false],
+                        ['user_id', '!=', auth()->id()],
+                    ])->paginate(10);
         }
 
         if(auth()->user()->user_type == 'buyer')
         {
-            $listings = Listing::where([
-                ['buy_sell', 'sell'],
-                ['filled', false],
-            ])->paginate(10);
+            $listings = Listing::whereIn('produce', $userListingsProduce)
+                    ->where([
+                        ['buy_sell', 'sell'],
+                        ['filled', false],
+                        ['user_id', '!=', auth()->id()],
+                    ])->paginate(10);
         }
 
         return view('listings.index', compact('listings'));
