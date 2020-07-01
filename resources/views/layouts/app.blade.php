@@ -82,11 +82,11 @@
                         @include('partials.alerts')
                     </div>
                     @yield('content')
+                    @include('layouts.footer')
                 </main>
             </div>
         </div>
     </div>
-    @include('layouts.footer')
     @yield('extra-js')
 </body>
 </html>

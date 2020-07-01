@@ -53,6 +53,15 @@ class TransactionController extends Controller
             'unit' => $relevantListing->unit,
         ]);
 
+        // Find a corresponding listing from the user and mark it as filled
+        $userListing = Listing::where([
+            ['user_id', auth()->id()],
+            ['produce', 'like', $transaction->produce],
+            ['filled', false]
+        ])->first();
+        // dd($userListing);
+        $userListing->update(['filled' => true]);
+
 
         // Recursively Save Relationships
         $transaction->user_id = $user->id;

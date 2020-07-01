@@ -38,21 +38,21 @@
     {{-- Row of Buttons --}}
     <div class="container row d-flex justify-content-between mb-3 mx-auto">
         @if(auth()->user()->profile == [])
-        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+        <div class="py-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
             <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-block btn-success btn-lg">Create Profile</a>
         </div>
         @else
-        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3"> 
+        <div class="py-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3"> 
             <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-block btn-success btn-lg">Edit Profile</a>
         </div>
         @endif
-        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+        <div class="py-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
             <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">View {{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
         </div>
-        <div class="mb-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+        <div class="py-3 pr-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
             <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">Make Listing</a>
         </div>
-        <div class="mb-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
+        <div class="py-3 shadow-sm col-sm-6 col-md-4 col-lg-3">
             <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-block btn-success btn-lg shadow-sm">View Transactions</a>
         </div>
     </div>
@@ -60,7 +60,13 @@
 
     {{-- Table of My Listings --}}
     <div class="container">
-        <h3 class="p-3 bg-light">My Listings</h3>
+        <div class="d-flex justify-content-between p-3 bg-light">
+            <h3>My Open Listings</h3>
+            <a href="{{ route('home', ['list' => 'all']) }}" class="btn btn-light btn-lg shadow-sm">View All Listings</a>
+            @if(request()->list == 'all')
+                <a href="{{ route('home') }}" class="btn btn-light btn-lg shadow-sm">Go Back</a>
+            @endif
+        </div>
         <table class="table table-striped table-hover table-light">
             <thead class="thead-dark">
                 <tr>
@@ -74,7 +80,7 @@
             </thead>
             <tbody>
                 @foreach($listings as $listing)
-                <tr>
+                <tr @if($listing->filled) class="bg-success" @endif>
                     <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ $listing->produce }}</td></a>
                     <td>{{ $listing->buy_sell }}</td>
                     <td>{{ $listing->quantity }}</td>

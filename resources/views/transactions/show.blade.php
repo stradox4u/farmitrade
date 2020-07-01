@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card col">
         <div class="card-header">
-            <h2>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ $transaction->produce }}, from {{ $transaction->listing->location }}</h2>
+            <h3>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ $transaction->produce }}, from {{ $transaction->listing->location }}</h3>
         </div>
         <div class="card-body">
             <h4 class="card-title">Price of Goods:</h4>
@@ -41,27 +41,31 @@
         </div>
         <div class="card-footer">
             <div class="container d-flex justify-content-between">
-                <form id="no_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
-                    @csrf
+                <div class="pr-3">
+                    <form id="no_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+                        @csrf
+                
+                        <input type="hidden" id="no_insurance_email" name="email" value="{{ auth()->user()->email }}">
+                        <input type="hidden" id="no_insurance_order_id" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+                        <input type="hidden" id="no_insurance_amount" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee }}">
+                        <input type="hidden" id="no_insurance_metadata" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+                        <input type="hidden" id="insurance_paid" name="insurance_paid" value="false">
+                        <button type="submit" name="no_insurance" id="no_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col">Pay Without Insurance</button>
+                    </form>
+                </div>
             
-                    <input type="hidden" id="no_insurance_email" name="email" value="{{ auth()->user()->email }}">
-                    <input type="hidden" id="no_insurance_order_id" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
-                    <input type="hidden" id="no_insurance_amount" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee }}">
-                    <input type="hidden" id="no_insurance_metadata" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
-                    <input type="hidden" id="insurance_paid" name="insurance_paid" value="false">
-                    <button type="submit" name="no_insurance" id="no_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col">Pay Without Insurance</button>
-                </form>
-            
-                <form id="with_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
-                    @csrf
-            
-                    <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-                    <input type="hidden" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
-                    <input type="hidden" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->insurance_premium + $transaction->platform_fee }}">
-                    <input type="hidden" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
-                    <input type="hidden" name="insurance_paid" value="true">
-                    <button type="submit" name="with_insurance" id="with_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col pl-3" disabled>Pay With Insurance</button>
-                </form>
+                <div class="pl-3">
+                    <form id="with_insurance" action="{{ route('pay') }}" method="POST" accept-charset="UTF-8" class="form-horizontal" role="form">
+                        @csrf
+                
+                        <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                        <input type="hidden" name="orderId" value="{{ $transaction->transaction_id_for_paystack }}">
+                        <input type="hidden" name="amount" value="{{ $transaction->price_of_goods + $transaction->price_of_logistics + $transaction->insurance_premium + $transaction->platform_fee }}">
+                        <input type="hidden" name="metadata" value="{{ json_encode($array = ['client_id' => $transaction->transaction_id_for_paystack]) }}">
+                        <input type="hidden" name="insurance_paid" value="true">
+                        <button type="submit" name="with_insurance" id="with_insurance_submit" class="btn btn-success shadow-sm btn-lg btn-block col pl-3" disabled>Pay With Insurance</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
