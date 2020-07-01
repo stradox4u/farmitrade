@@ -6,12 +6,12 @@
 @component('mail::panel')
 <h2>Subject:</h2>
 {{ $data['subject'] }}
-<br>
-<br>
+@endcomponent
+@component('mail::panel')
 <h2>Message:</h2>
 {{ $data['message'] }}
 @endcomponent
-<p>Please ensure the message is given the requisite due diligence.</p>
+<p>Please ensure this message is given the requisite due diligence.</p>
 <br>
 <p>Best regards,</p>
 <p>Your Farmitrade&reg; Partners.</p>

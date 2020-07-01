@@ -22,11 +22,6 @@
             <hr>
             <br>
             
-            <h4 class="card-title">Total:</h4>
-            <p class="card-text">&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) / 100, 2) }}</p>
-            <hr>
-            <br>
-
             <h4 class="card-title">Insurance Premium:</h4>
             <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->insurance_premium / 100, 2) }}</p>
             <div class="form-check row mb-3">
@@ -37,7 +32,13 @@
                     </label>
                 </div>
             </div>
-            
+            <hr>
+
+            <h4 class="card-title">Total:</h4>
+            <p class="card-text" id="allTotal"></p>
+            <hr>
+            <br>
+             
         </div>
         <div class="card-footer">
             <div class="container d-flex justify-content-between">
@@ -101,12 +102,15 @@
 <script>
     window.onload = function()
     {
+        var total = document.getElementById("allTotal");
+        total.innerHTML = '&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) / 100, 2) }}';
         // Some Javascript to enable the close and accept button 
         var el = document.getElementById('close_accept');
             el.addEventListener('click', function(el) 
             {
                 document.getElementById("pay_insurance_premium").checked = true;
                 document.getElementById("with_insurance_submit").disabled = false;
+                total.innerHTML = '&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee + $transaction->insurance_premium) / 100, 2) }}';
             });
 
             // Javascript to enable and disable the pay with insurance button
@@ -117,9 +121,12 @@
                 if(button.disabled)
                 {
                     button.disabled = false;
+                    total.innerHTML = '&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee + $transaction->insurance_premium) / 100, 2) }}';
+                    
                 } else 
                 {
                     button.disabled = true;
+                    total.innerHTML = '&#8358;&nbsp;{{ number_format(($transaction->price_of_goods + $transaction->price_of_logistics + $transaction->platform_fee) / 100, 2) }}';
                 }
             });
            

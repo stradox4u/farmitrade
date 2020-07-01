@@ -181,6 +181,11 @@
                 <a href="#" class="text-dark"><i class="fab fa-twitter fa-2x"></i></a>
             </div>
         </div>
+
+        <div class="container d-flex flex-row justify-content-between pt-3">
+            <a href="{{ route('contact.create') }}" class="text-dark">Contact Us</a>
+            <a href="#" class="text-dark">About Us</a>
+        </div>
         
     </body>
 </html>
