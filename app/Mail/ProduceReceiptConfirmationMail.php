@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ProducePaymentConfirmationMail extends Mailable
+class ProduceReceiptConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,8 +32,8 @@ class ProducePaymentConfirmationMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your Payment Has Been Made')
+        return $this->subject('Your goods have been received and payment made')
                     ->from('admin@farmitrade.com.ng')
-                    ->markdown('emails.produce-paid');
+                    ->markdown('emails.produce-received');
     }
 }

@@ -6,9 +6,9 @@ use App\Events\ProduceReceivedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Mail\ProducePaymentConfirmationMail;
+use App\Mail\ProduceReceiptConfirmationMail;
 
-class SendFarmerProducePaymentConfirmationMailListener implements ShouldQueue
+class SendFarmerProduceReceiptConfirmationMailListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -39,6 +39,6 @@ class SendFarmerProducePaymentConfirmationMailListener implements ShouldQueue
         }
 
         // Send Email
-        Mail::to($farmer->email)->send(new ProducePaymentConfirmationMail($farmer, $transaction));
+        Mail::to($farmer->email)->send(new ProduceReceiptConfirmationMail($farmer, $transaction));
     }
 }

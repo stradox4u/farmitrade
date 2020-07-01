@@ -21,7 +21,7 @@ use App\Listeners\SendBuyerPaymentConfirmationEmail;
 use App\Listeners\SendFarmerPaymentConfirmationEmail;
 use App\Listeners\TransferProducePaymentToFarmerListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use App\Listeners\SendFarmerProducePaymentConfirmationMailListener;
+use App\Listeners\SendFarmerProduceReceiptConfirmationMailListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -51,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProduceReceivedEvent::class => [
             TransferProducePaymentToFarmerListener::class,
-            SendFarmerProducePaymentConfirmationMailListener::class,
+            SendFarmerProduceReceiptConfirmationMailListener::class,
         ],
         RetryTransferEvent::class => [
             RetryTransferListener::class,
