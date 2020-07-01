@@ -10,7 +10,6 @@ use App\Events\ProduceReceivedEvent;
 use Illuminate\Support\Facades\Event;
 use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Auth\Events\Registered;
-use App\Listeners\RemitInsurancePremium;
 use App\Listeners\RetryTransferListener;
 use App\Listeners\SendPossibleTransactions;
 use App\Listeners\VerifyBankAccountListener;
@@ -49,7 +48,6 @@ class EventServiceProvider extends ServiceProvider
             SendBuyerPaymentConfirmationEmail::class,
             SendFarmerPaymentConfirmationEmail::class,
             TransferLogisticsPaymentToFarmer::class,
-            RemitInsurancePremium::class,
         ],
         ProduceReceivedEvent::class => [
             TransferProducePaymentToFarmerListener::class,

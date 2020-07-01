@@ -64,10 +64,13 @@ class WeeklyNotifications implements ShouldQueue
             }
             // logger($relevantListings);
 
-            $myOpenListings = $user->listings()->where(['filled', false]);
+            $myOpenListings = $user->listings()->where(['filled', false])->get();
 
-            // Send email
-            Mail::to($user->email)->send(new WeeklyNotificationMail($user, $relevantListings, $myOpenListings));
+            // Send email if user has open listings
+            if($myOpenListings->count() > 0)
+            {
+                Mail::to($user->email)->send(new WeeklyNotificationMail($user, $relevantListings, $myOpenListings));
+            }
         }
     }
 }

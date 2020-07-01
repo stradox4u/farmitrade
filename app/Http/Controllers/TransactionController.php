@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContestedTransactionMail;
 use App\Mail\InterestInYourListingMail;
 use App\Mail\YourProduceIsOnTheWayMail;
+use App\Mail\GoodsInTransitNotificationMail;
 
 class TransactionController extends Controller
 {
@@ -199,12 +200,28 @@ class TransactionController extends Controller
             $buyer = $transaction->listing->user;
         }
 
-        // Update transaction status, and send email to the buyer
+        // Get farmer
+        if($transaction->user->user_type == 'farmer')
+        {
+            $farmer = $transaction->user;
+        } else
+        {
+            $farmer = $transaction->listing->user;
+        }
+
+        // Update transaction status
         $transaction->update(['transaction_status' => 'shipped']);
+
+        // Notify the insurer of the shipment if insurance premium was paid
+        if($transaction->insurance_premium_paid)
+        {
+            Mail::to('insurer@insurer.com')->send(new GoodsInTransitNotificationMail($transaction, $farmer));
+        }
+
+        // Send email to the buyer
         Mail::to($buyer->email)->send(new YourProduceIsOnTheWayMail($transaction, $buyer));
 
-        // Send email to insurer if insurance premium was paid
-
+        // Return back to same page with a flash message
         request()->session()->flash('success', 'The transaction has been marked as shipped.');
         return back();
     }
