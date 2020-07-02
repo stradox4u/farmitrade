@@ -30,7 +30,7 @@
 
             <div class="row px-3 text-light">
                 <h5 class="h5 bg-light p-1 rounded text-dark">Phone Number:&nbsp;</h5>
-                <p>{{ auth()->user()->profile->phone_number ?? 'Not yet set' }}</p>
+                <p>{{ Str::replaceFirst('234', '0', auth()->user()->profile->phone_number) ?? 'Not yet set' }}</p>
             </div>
         </div>
     </div>

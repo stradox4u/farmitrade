@@ -17,13 +17,13 @@
     <div class="container row d-flex flex-row justify-content-between mt-3">
         <div class="col-md-6 pt-3 bg-success">
             <h3>Shipping Information</h3>
-            <p>{{ $profile->phone_number }}</p>
+            <p>{{ Str::replaceFirst('234', '0', $profile->phone_number) }}</p>
             <p>{{ $profile->shipping_address }}</p>
         </div>
 
         <div class="col-md-6 bg-light pt-3">
             <h3>Billing Information</h3>
-            <p>{{ $profile->phone_number }}</p>
+            <p>{{ Str::replaceFirst('234', '0', $profile->phone_number) }}</p>
             <p>{{ $profile->billing_address }}</p>
         </div>
     </div>

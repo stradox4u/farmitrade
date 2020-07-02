@@ -44,7 +44,7 @@
                         <div class="form-group row">
                             
                             <div class="col w-100">
-                                <input id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ $profile->phone_number }}" autocomplete="phone_number" autofocus placeholder="Phone Number">
+                                <input id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ Str::replaceFirst('234', '0', $profile->phone_number) }}" autocomplete="phone_number" autofocus placeholder="Phone Number">
                                 
                                 @error('phone_number')
                                 <span class="invalid-feedback" role="alert">
