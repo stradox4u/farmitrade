@@ -151,7 +151,7 @@ class ProfileController extends Controller
         {
             $updateData = ([
                 'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
-                'phone_number' => $data['phone_number'],
+                'phone_number' => Str::replaceFirst('0', '234', $data['phone_number']),
                 'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
              ]);
         }
