@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Profile;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\ProfileCreatedEvent;
 use App\Events\ProfileUpdatedEvent;
@@ -45,9 +46,9 @@ class ProfileController extends Controller
         $data = $request->validate([
             'shipping_address1' => ['required', 'string', 'max:85'],
             'shipping_address2' => ['required', 'string', 'max:85'],
-            'phone_number' => ['required', 'string', 'min:11'],
+            'phone_number' => ['required', 'string', 'min:11', 'max:11'],
             'bank_name' => ['nullable', 'string'],
-            'account_number' => ['nullable', 'string', 'min:10'],
+            'account_number' => ['nullable', 'string', 'min:10', 'max:10'],
             'billing_address1' => ['required', 'string', 'max:85'],
             'billing_address2' => ['required', 'string', 'max:85'],
             'profile_image' => ['required', 'image'],
@@ -66,7 +67,7 @@ class ProfileController extends Controller
         {
             $profile = $user->profile()->create([
                 'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
-                'phone_number' => $data['phone_number'],
+                'phone_number' => Str::replaceFirst('0', '234', $data['phone_number']),
                 'bank_name' => $data['bank_name'],
                 'account_number' => $data['account_number'],
                 'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],
@@ -129,9 +130,9 @@ class ProfileController extends Controller
         $data = $request->validate([
             'shipping_address1' => ['nullable', 'string', 'max:85'],
             'shipping_address2' => ['nullable', 'string', 'max:85'],
-            'phone_number' => ['nullable', 'string', 'min:11'],
+            'phone_number' => ['nullable', 'string', 'min:11', 'max:11'],
             'bank_name' => ['nullable', 'string'],
-            'account_number' => ['nullable', 'string', 'min:10'],
+            'account_number' => ['nullable', 'string', 'min:10', 'max:10'],
             'billing_address1' => ['nullable', 'string', 'max:85'],
             'billing_address2' => ['nullable', 'string', 'max:85'],
             'profile_image' => ['nullable', 'image'],
@@ -141,7 +142,7 @@ class ProfileController extends Controller
         {
             $updateData = ([
                 'shipping_address' => $data['shipping_address1'] . '; ' . $data['shipping_address2'],
-                'phone_number' => $data['phone_number'],
+                'phone_number' => Str::replaceFirst('0', '234', $data['phone_number']),
                 'bank_name' => $data['bank_name'],
                 'account_number' => $data['account_number'],
                 'billing_address' => $data['billing_address1'] . '; ' . $data['billing_address2'],

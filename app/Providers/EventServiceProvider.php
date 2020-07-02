@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Events\ListingCreated;
 use App\Events\RetryTransferEvent;
+use App\Listeners\SendSmsListener;
 use App\Events\ProfileCreatedEvent;
 use App\Events\ProfileUpdatedEvent;
 use App\Events\ProduceReceivedEvent;
 use Illuminate\Support\Facades\Event;
 use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Auth\Events\Registered;
+use App\Events\SendNotificationSmsEvent;
 use App\Listeners\RetryTransferListener;
 use App\Listeners\SendPossibleTransactions;
 use App\Listeners\VerifyBankAccountListener;
@@ -55,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         RetryTransferEvent::class => [
             RetryTransferListener::class,
+        ],
+        SendNotificationSmsEvent::class => [
+            SendSmsListener::class,
         ],
     ];
 

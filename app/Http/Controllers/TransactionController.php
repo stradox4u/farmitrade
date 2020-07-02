@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContestedTransactionMail;
 use App\Mail\InterestInYourListingMail;
 use App\Mail\YourProduceIsOnTheWayMail;
+use App\Events\SendNotificationSmsEvent;
 use App\Mail\GoodsInTransitNotificationMail;
 
 class TransactionController extends Controller
@@ -72,6 +73,16 @@ class TransactionController extends Controller
 
         // Send Email to Poster of Listing
         Mail::to($relevantListing->user->email)->send(new InterestInYourListingMail($relevantListing, $user));
+
+        // Event to send text messages to both parties
+        $recipient = $transaction->user->profile->phone_number;
+        $message = $transaction->user->name . ' has indicated interest in doing business on your listing of ' . $transaction->listing->quantity . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $recipient . ' to arrange for logistics and delivery.';
+        event(new SendNotificationSmsEvent($recipient, $message));
+
+        $recipient = $transaction->listing->user->profile->phone_number;
+        $message = $transaction->listing->user->name . ' has been notified of your interest in ' . $transaction->listing->quantity . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $recipient . ' to arrange for logistics and delivery.';
+        event(new SendNotificationSmsEvent($recipient, $message));
+        
 
         // Return view with success notification
         request()->session()->flash('success', 'The poster has been contacted successfully.');
@@ -171,14 +182,20 @@ class TransactionController extends Controller
 
         if($transaction->user->user_type == 'buyer')
         {
-            $buyerEmail = $transaction->user->email;
+            $buyer = $transaction->user;
         } else
         {
-            $buyerEmail = $transaction->listing->user->email;
+            $buyer = $transaction->listing->user;
         }
 
         // Send buyer email with link with which to make payment
-        Mail::to($buyerEmail)->send(new MakePaymentNowEmail($transaction));
+        Mail::to($buyer->email)->send(new MakePaymentNowEmail($transaction));
+
+        // Send buyer text message advising to make payment
+        $recipient = $buyer->profile->phone_number;
+        $message = 'Your transaction with id:' . $transaction->transaction_id_for_paystack . ', to buy ' . $transaction->quantity . $transaction->unit . ' of ' . $transaction->produce . ' from ' . $transaction->listing->location . ' has just been updated. Please proceed to make payment as soon as possible.';
+        
+        event(new SendNotificationSmsEvent($recipient, $message));
 
         return redirect(route('home'));
     }
@@ -191,22 +208,15 @@ class TransactionController extends Controller
      */
     public function markShipped(Transaction $transaction)
     {
-        // Get buyer email
+        // Get buyer and farmer
         if($transaction->user->user_type == 'buyer')
         {
             $buyer = $transaction->user;
+            $farmer = $transaction->listing->user;
         } else
         {
             $buyer = $transaction->listing->user;
-        }
-
-        // Get farmer
-        if($transaction->user->user_type == 'farmer')
-        {
             $farmer = $transaction->user;
-        } else
-        {
-            $farmer = $transaction->listing->user;
         }
 
         // Update transaction status
@@ -220,6 +230,12 @@ class TransactionController extends Controller
 
         // Send email to the buyer
         Mail::to($buyer->email)->send(new YourProduceIsOnTheWayMail($transaction, $buyer));
+
+        // Send buyer text message notifying that produce has been shipped
+        $recipient = $buyer->profile->phone_number;
+        $message = 'Your transaction with id:' . $transaction->transaction_id_for_paystack . ', to buy ' . $transaction->quantity . $transaction->unit . ' of ' . $transaction->produce . ' from ' . $transaction->listing->location . ' has been shipped. Please mark as received, once you confirm receipt.';
+        
+        event(new SendNotificationSmsEvent($recipient, $message));
 
         // Return back to same page with a flash message
         request()->session()->flash('success', 'The transaction has been marked as shipped.');
@@ -240,6 +256,20 @@ class TransactionController extends Controller
 
         // Event to release the farmer's produce payment and send him a mail for the same
         event(new ProduceReceivedEvent($transaction));
+
+        // Send farmer text message notifying produce has been received
+        if($transaction->user->user_type == 'farmer')
+        {
+            $farmer = $transaction->user;
+        } else
+        {
+            $farmer = $transaction->listing->user;
+        }
+
+        $recipient = $farmer->profile->phone_number;
+        $message = 'Your transaction with id:' . $transaction->transaction_id_for_paystack . ', to supply ' . $transaction->quantity . $transaction->unit . ' of ' . $transaction->produce . ' is delivered. The amount for the produce has been transferred to your bank account.';
+
+        event(new SendNotificationSmsEvent($recipient, $message));
 
         // Send email to insurer if insurance premium was paid
 

@@ -11,6 +11,7 @@ use App\Events\RetryTransferEvent;
 use Illuminate\Support\Collection;
 use App\Events\PaymentSuccessfulEvent;
 use Illuminate\Queue\SerializesModels;
+use App\Events\SendNotificationSmsEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -55,6 +56,20 @@ class ProcessPaystackWebhookJob extends SpatieProcessWebhookJob implements Shoul
                     $payment->transaction->update(['transaction_status' => 'paid',]);
 
                     event(new PaymentSuccessfulEvent($payment));
+
+                    // Get farmer for this transaction
+                    if($payment->transaction->user->user_type == 'farmer')
+                    {
+                        $farmer = $payment->transaction->user;
+                    } else 
+                    {
+                        $farmer = $payment->transaction->listing->user;
+                    }
+                    // Send farmer text message notifying of payment
+                    $recipient = $farmer->profile->phone_number;
+                    $message = 'Your transaction with id:' . $payment->transaction->transaction_id_for_paystack . ', to supply ' . $payment->transaction->quantity . $payment->transaction->unit . ' of ' . $payment->transaction->produce . ' has just been paid for. Please proceed to ship the produce. The amount for the logistics has been transferred to your bank account.';
+
+                    event(new SendNotificationSmsEvent($recipient, $message));
                 }
             break;
 
