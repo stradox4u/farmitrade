@@ -82,7 +82,7 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="{{ asset('images/abundance.jpg') }}" class="d-block w-100" alt="abundance">
+                                    <img src="{{ asset('images/trader.jpg') }}" class="d-block w-100" alt="abundance">
                                 </div>
                                 <div class="carousel-item">
                                     <img src="{{ asset('images/carrots.jpg') }}" class="d-block w-100" alt="carrots">
@@ -106,7 +106,7 @@
                                     <img src="{{ asset('images/variety.jpg') }}" class="d-block w-100" alt="variety">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ asset('images/trader.jpg') }}" class="d-block w-100" alt="trader">
+                                    <img src="{{ asset('images/abundance.jpg') }}" class="d-block w-100" alt="trader">
                                 </div>
                             </div>
                             <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
