@@ -36,7 +36,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $listings->links() }}
+            {{-- {{ $listings->links() }} --}}
         </div>
         @endif
     </div>

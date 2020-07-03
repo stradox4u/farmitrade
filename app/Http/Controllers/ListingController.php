@@ -23,22 +23,44 @@ class ListingController extends Controller
         // Get opposing listings that match
         if(auth()->user()->user_type == 'farmer')
         {
-            $listings = Listing::whereIn('produce', $userListingsProduce)
-                    ->where([
-                        ['buy_sell', 'buy'],
-                        ['filled', false],
-                        ['user_id', '!=', auth()->id()],
-                    ])->paginate(10);
+            $listings = collect([]);
+            foreach($userListingsProduce as $produce)
+            {
+                $relevant = Listing::where([
+                    ['produce', 'like', '%' . $produce . '%'],
+                    ['buy_sell', 'buy'],
+                    ['filled', false],
+                    ['user_id', '!=',  auth()->id()],
+                ])->get();
+                $listings = $listings->concat($relevant);
+            }
+            // $listings = Listing::whereIn('produce', $userListingsProduce)
+            //         ->where([
+            //             ['buy_sell', 'buy'],
+            //             ['filled', false],
+            //             ['user_id', '!=', auth()->id()],
+            //         ])->paginate(10);
         }
 
         if(auth()->user()->user_type == 'buyer')
         {
-            $listings = Listing::whereIn('produce', $userListingsProduce)
-                    ->where([
-                        ['buy_sell', 'sell'],
-                        ['filled', false],
-                        ['user_id', '!=', auth()->id()],
-                    ])->paginate(10);
+            $listings = collect([]);
+            foreach($userListingsProduce as $produce)
+            {
+                $relevant = Listing::where([
+                    ['produce', 'like', '%' . $produce . '%'],
+                    ['buy_sell', 'sell'],
+                    ['filled', false],
+                    ['user_id', '!=',  auth()->id()],
+                ])->get();
+                $listings = $listings->concat($relevant);
+            }
+            // $listings = Listing::whereIn('produce', $userListingsProduce)
+            //         ->where([
+            //             ['buy_sell', 'sell'],
+            //             ['filled', false],
+            //             ['user_id', '!=', auth()->id()],
+            //         ])->paginate(10);
         }
 
         // If user has not created a profile, redirect them to profile creation page
