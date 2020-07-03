@@ -58,7 +58,7 @@
                         <div class="form-group row">
                             
                             <div class="col w-100">
-                                <input id="bank_name" type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" autocomplete="bank_name" placeholder="Bank Name (Leave blank to avoid updating)">
+                                <input id="bank_name" type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" autocomplete="bank_name" value="{{ old('bank_name') }}" placeholder="Bank Name (Leave blank to avoid updating)">
                                 
                                 @error('bank_name')
                                 <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                         <div class="form-group row">
                             
                             <div class="col w-100">
-                                <input id="account_number" type="text" class="form-control @error('account_number') is-invalid @enderror" name="account_number" autocomplete="account_number" placeholder="Account Number (Leave blank to avoid updating)">
+                                <input id="account_number" type="text" class="form-control @error('account_number') is-invalid @enderror" name="account_number" autocomplete="account_number" value="{{ old('account_number') }}" placeholder="Account Number (Leave blank to avoid updating)">
                                 
                                 @error('account_number')
                                 <span class="invalid-feedback" role="alert">
