@@ -26,10 +26,14 @@ class ProcessNexmoWebhookJob extends SpatieProcessWebhookJob implements ShouldQu
 
         $recipient = $payload['msisdn'];
         $status = $payload['status'];
+        $code = $payload['err-code'];
 
         if($status == 'delivered')
         {
             logger($recipient . ': Text message, delivered successfully');
+        } else 
+        {
+            logger($recipient . ': Problem delivering text message. Error is:' . $status . '. Error code:' . $code);
         }
     }
 }
