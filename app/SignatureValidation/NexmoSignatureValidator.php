@@ -10,6 +10,7 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
+        logger($_SERVER);
         return($_SERVER['HTTP_SIG'] == hash_hmac('sha256', file_get_contents('php://input'), config('nexmo.signature_secret')));
     }
 }
