@@ -15,6 +15,7 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
         if($inbound->isValid())
         {
             $params = $inbound->getRequestData();
+            logger($params);
             $signature = new Signature(
                 $params,
                 config('nexmo.signature_secret'),
