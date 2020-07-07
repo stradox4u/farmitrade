@@ -11,18 +11,12 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
-        logger($this->webhookCall);
-        $inbound = \Nexmo\Message\InboundMessage::createFromGlobals();
-        if($inbound->isValid())
-        {
-            $params = $inbound->getRequestData();
-            logger($params);
             $signature = new Signature(
-                $params,
+                $request,
                 config('nexmo.signature_secret'),
                 'md5hash'
             );
-            $validSig = $signature->check($params['sig']);
+            $validSig = $signature->check($request['sig']);
             if($validSig)
             {
                 logger('Webhook Processed Successfully');
@@ -31,6 +25,5 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
             {
                 return false;
             }
-        }
     }
 }
