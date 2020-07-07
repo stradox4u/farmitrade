@@ -11,7 +11,10 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
-        logger($request);
-        logger($config);
+        $status = $request['status'];
+        if($status == 'delivered')
+        {
+            return true;
+        }
     }
 }
