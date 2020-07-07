@@ -15,6 +15,9 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
         if($status == 'delivered')
         {
             return true;
+        } else
+        {
+            return false;
         }
     }
 }
