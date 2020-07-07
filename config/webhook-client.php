@@ -73,7 +73,7 @@ return [
              *
              * It should implement \Spatie\WebhookClient\SignatureValidator\SignatureValidator
              */
-            'signature_validator' => \Spatie\WebhookClient\SignatureValidator\NexmoSignatureValidator::class,
+            'signature_validator' => App\SignatureValidation\NexmoSignatureValidator::class,
 
             /*
              * This class determines if the webhook call should be stored and processed.
