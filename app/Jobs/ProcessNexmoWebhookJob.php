@@ -23,7 +23,6 @@ class ProcessNexmoWebhookJob extends SpatieProcessWebhookJob implements ShouldQu
         ($this->webhookCall);
 
         $payload = json_decode($this->webhookCall, true)['payload'];
-        logger($payload);
 
         $recipient = $payload['msisdn'];
         $status = $payload['status'];
