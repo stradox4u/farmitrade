@@ -15,6 +15,6 @@ class PaystackSignatureValidator implements \Spatie\WebhookClient\SignatureValid
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
-        return($_SERVER['HTTP_X_PAYSTACK_SIGNATURE'] == hash_hmac('sha512', file_get_contents('php://input'), config('paystack.secret_key')));
+        return($_SERVER['HTTP_SIG'] == hash_hmac('sha256', file_get_contents('php://input'), config('nexmo.signature_secret')));
     }
 }
