@@ -11,6 +11,7 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
+        logger($this->webhookCall);
         $inbound = \Nexmo\Message\InboundMessage::createFromGlobals();
         if($inbound->isValid())
         {
