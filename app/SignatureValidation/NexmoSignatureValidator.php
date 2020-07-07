@@ -2,6 +2,7 @@
 
 namespace App\SignatureValidation;
 
+use Nexmo\Client\Signature;
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\WebhookConfig;
 
@@ -14,7 +15,7 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
         if($inbound->isValid())
         {
             $params = $inbound->getRequestData();
-            $signature = new Nexmo\Client\Signature(
+            $signature = new Signature(
                 $params,
                 config('nexmo.signature_secret'),
                 'md5hash'
