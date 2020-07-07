@@ -12,7 +12,7 @@ class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidato
     public function isValid(Request $request, WebhookConfig $config): bool
     {
             $signature = new Signature(
-                $request,
+                $request->toArray(),
                 config('nexmo.signature_secret'),
                 'md5hash'
             );
