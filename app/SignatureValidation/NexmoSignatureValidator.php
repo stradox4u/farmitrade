@@ -11,7 +11,7 @@ interface SignatureValidator
 
 }
 
-class PaystackSignatureValidator implements \Spatie\WebhookClient\SignatureValidator\SignatureValidator
+class NexmoSignatureValidator implements \Spatie\WebhookClient\SignatureValidator\SignatureValidator
 {
     public function isValid(Request $request, WebhookConfig $config): bool
     {
