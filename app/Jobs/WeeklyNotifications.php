@@ -36,39 +36,39 @@ class WeeklyNotifications implements ShouldQueue
         // Fetch all users from the table
         $users = User::all();
 
-        // Get the posts relevant to each user
+        // Get the posts relevant to each user and send emails
         foreach($users as $user)
         {
-            // dd($user->listings()->get());
-            $userListingsProduce = $user->listings()->take(3)->pluck('produce')->toArray();
-            // $userListingsProduceString = implode(' ', $userListingsProduce->toArray());
-            // logger($userListingsProduceString);
-            if($user->user_type == 'buyer')
-            {
-                $relevantListings = Listing::whereIn('produce', $userListingsProduce)
-                    ->where([
-                        ['buy_sell', 'sell'],
-                        ['filled', false],
-                        ['user_id', '!=', $user->id],
-                    ])->take(7)->get();
-            }
-
-            if($user->user_type == 'farmer')
-            {
-                $relevantListings = Listing::whereIn('produce', $userListingsProduce)
-                    ->where([
-                        ['buy_sell', 'buy'],
-                        ['filled', false],
-                        ['user_id', '!=', $user->id],
-                    ])->take(7)->get();
-            }
-            // logger($relevantListings);
-
-            $myOpenListings = $user->listings()->where(['filled', false])->get();
+            $myOpenListings = $user->listings()->where('filled', false)->get();
 
             // Send email if user has open listings
             if($myOpenListings->isNotEmpty())
             {
+                // Get the produce the user has listed for
+                $userListingsProduce = $user->listings()->take(3)->pluck('produce')->toArray();
+
+                // Get 7 matching listings
+                if($user->user_type == 'buyer')
+                {
+                    $relevantListings = Listing::whereIn('produce', $userListingsProduce)
+                        ->where([
+                            ['buy_sell', '=', 'sell'],
+                            ['filled', '=', false],
+                            ['user_id', '!=', $user->id],
+                        ])->take(7)->get();
+                }
+    
+                if($user->user_type == 'farmer')
+                {
+                    $relevantListings = Listing::whereIn('produce', $userListingsProduce)
+                        ->where([
+                            ['buy_sell', '=', 'buy'],
+                            ['filled', '=', false],
+                            ['user_id', '!=', $user->id],
+                        ])->take(7)->get();
+                }
+
+                // Send email to users
                 Mail::to($user->email)->send(new WeeklyNotificationMail($user, $relevantListings, $myOpenListings));
             }
         }
