@@ -50,22 +50,32 @@ class WeeklyNotifications implements ShouldQueue
                 // Get 7 matching listings
                 if($user->user_type == 'buyer')
                 {
-                    $relevantListings = Listing::whereIn('produce', $userListingsProduce)
-                        ->where([
-                            ['buy_sell', '=', 'sell'],
-                            ['filled', '=', false],
-                            ['user_id', '!=', $user->id],
-                        ])->take(7)->get();
+                    $relevantListings = collect([]);
+                    foreach($userListingsProduce as $produce)
+                    {
+                        $relevant = Listing::where([
+                            ['produce', 'like', '%' . $produce . '%'],
+                            ['buy_sell', 'sell'],
+                            ['filled', false],
+                            ['user_id', '!=',  auth()->id()],
+                        ])->get();
+                        $relevantListings = $relevantListings->concat($relevant)->take(7);
+                    }
                 }
     
                 if($user->user_type == 'farmer')
                 {
-                    $relevantListings = Listing::whereIn('produce', $userListingsProduce)
-                        ->where([
-                            ['buy_sell', '=', 'buy'],
-                            ['filled', '=', false],
-                            ['user_id', '!=', $user->id],
-                        ])->take(7)->get();
+                    $relevantListings = collect([]);
+                    foreach($userListingsProduce as $produce)
+                    {
+                        $relevant = Listing::where([
+                            ['produce', 'like', '%' . $produce . '%'],
+                            ['buy_sell', 'buy'],
+                            ['filled', false],
+                            ['user_id', '!=',  auth()->id()],
+                        ])->get();
+                        $relevantListings = $relevantListings->concat($relevant)->take(7);
+                    }
                 }
 
                 // Send email to users

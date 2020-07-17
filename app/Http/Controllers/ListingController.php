@@ -34,12 +34,6 @@ class ListingController extends Controller
                 ])->get();
                 $listings = $listings->concat($relevant);
             }
-            // $listings = Listing::whereIn('produce', $userListingsProduce)
-            //         ->where([
-            //             ['buy_sell', 'buy'],
-            //             ['filled', false],
-            //             ['user_id', '!=', auth()->id()],
-            //         ])->paginate(10);
         }
 
         if(auth()->user()->user_type == 'buyer')
@@ -55,12 +49,6 @@ class ListingController extends Controller
                 ])->get();
                 $listings = $listings->concat($relevant);
             }
-            // $listings = Listing::whereIn('produce', $userListingsProduce)
-            //         ->where([
-            //             ['buy_sell', 'sell'],
-            //             ['filled', false],
-            //             ['user_id', '!=', auth()->id()],
-            //         ])->paginate(10);
         }
 
         // If user has not created a profile, redirect them to profile creation page
