@@ -66,7 +66,9 @@
         <div class="container col">
             <div class="d-flex justify-content-between p-3 bg-light">
                 <h3>My Open Listings</h3>
+                @if(request()->list != 'all')
                 <a href="{{ route('home', ['list' => 'all']) }}" class="btn btn-light shadow-sm">All My Listings</a>
+                @endif
                 @if(request()->list == 'all')
                     <a href="{{ route('home') }}" class="btn btn-light shadow-sm">Go Back</a>
                 @endif
