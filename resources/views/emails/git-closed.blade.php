@@ -1,7 +1,7 @@
 @component('mail::message')
 <p>Hello Insurer Contact,</p>
 <br>
-<p>With respect to our Goods in Transit insurance policy xxxxxxxxxx with your organization, a transaction was just made, with the details below.</p>
+<p>With respect to our Goods in Transit insurance policy xxxxxxxxxx with your organization, a transaction was just closed, with the details below.</p>
 <br>
 @component('mail::panel')
 <h2>Produce:</h2>
@@ -19,7 +19,7 @@
 <h2>Buyer:</h2>
 <p>{{ $transaction->user->user_type == 'buyer' ? $transaction->user->name : $transaction->listing->user->name }}</p>
 @endcomponent
-
+<p>The goods have been successfully delivered to the recipient, and so coverage can be successfully closed.</p>
 <p>Thank you, and do have a wonderful day.</p>
 <br>
 <p>Yours sincerely,</p>

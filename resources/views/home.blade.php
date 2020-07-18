@@ -32,6 +32,16 @@
                 <h5 class="h5 bg-light p-1 rounded text-dark mr-3">Phone Number:&nbsp;</h5>
                 <p>{{ auth()->user()->profile == null ? 'Not yet set' : Str::replaceFirst('234', '0', auth()->user()->profile->phone_number) }}</p>
             </div>
+
+            <div class="row px-3 text-light">
+                <h5 class="h5 bg-light p-1 rounded text-dark mr-3">Successful Transactions:&nbsp;</h5>
+                <p>{{ auth()->user()->successful_transactions }}</p>
+            </div>
+
+            <div class="row px-3 text-light">
+                <h5 class="h5 bg-light p-1 rounded text-dark mr-3">Average Rating:&nbsp;</h5>
+                <p>{{ number_format(auth()->user()->averageRating(), 2) }} Stars</p>
+            </div>
         </div>
     </div>
     {{-- End of User Profile Info --}}

@@ -63,7 +63,17 @@
                             <button type="submit" class="col btn btn-block btn-lg btn-danger shadow-sm" @if($transaction->transaction_status == 'in contest' || $transaction->transaction_status == 'delivered') disabled @endif>Make Claim</button>
                         </form>
                     </div>
-                    
+
+                    {{-- Rating Button --}}
+                    @if(auth()->user()->user_type == 'farmer')
+                    <div class="pr-3">
+                        <a href="{{ route('rating.edit', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->buyer_is_rated == true) disabled @endif">Rate</a>
+                    </div>
+                    @elseif(auth()->user()->user_type == 'buyer')
+                    <div class="pr-3">
+                        <a href="{{ route('rating.edit', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->farmer_is_rated == true) disabled @endif">Rate</a>
+                    </div>
+                    @endif
                 </td>
             </tr>
             @endforeach

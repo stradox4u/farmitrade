@@ -73,3 +73,10 @@ Route::webhooks('/nexmo/webhook', 'nexmo');
 Route::get('/contact', 'ContactUsController@create')->name('contact.create');
 
 Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');
+
+Route::middleware('auth')->group(function()
+{
+    Route::get('users/{transaction}/rate', 'RatingsController@edit')->name('rating.edit');
+    
+    Route::post('users/{user}/rating', 'RatingsController@update')->name('rating.update');
+});

@@ -13,12 +13,16 @@
         </div>
         <div class="row card-footer">
             <div class="col-md-9">
-                <h3>Listing Posted By:</h3>
+                <h4>Listing Posted By:</h4>
                 <p>{{ $listing->user->name }}</p>
+                <h4>Successful Transactions:</h4>
+                <p>{{ $listing->user->successful_transactions }}</p>
+                <h4>Average Rating:</h4>
+                <p>{{ number_format($listing->user->averageRating(), 2) }} Stars</p>
             </div>
             <div class="col-md-3">
                 @if($listing->user->profile->profile_image !== null)
-                <img src="{{ asset('storage/' . $listing->user->profile->profile_image) }}" alt="listing poster's profile image" style="height: 160px;" class="img-fluid">
+                <img src="{{ asset('storage/' . $listing->user->profile->profile_image) }}" alt="listing poster's profile image" style="height: 160px;" class="img-fluid rounded-circle">
                 @else
                 <i class="far fa-user fa-5x text-white pt-3"></i>
                 @endif

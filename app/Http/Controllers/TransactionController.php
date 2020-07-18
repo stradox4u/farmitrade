@@ -15,6 +15,7 @@ use App\Mail\InterestInYourListingMail;
 use App\Mail\YourProduceIsOnTheWayMail;
 use App\Events\SendNotificationSmsEvent;
 use App\Mail\GoodsInTransitNotificationMail;
+use App\Mail\GoodsInTransitClosedNotificationMail;
 
 class TransactionController extends Controller
 {
@@ -272,9 +273,21 @@ class TransactionController extends Controller
         event(new SendNotificationSmsEvent($recipient, $message));
 
         // Send email to insurer if insurance premium was paid
+        if($transaction->insurance_premium_paid)
+        {
+            Mail::to('insurer@insurer.com')->send(new GoodsInTransitClosedNotificationMail($transaction, $farmer));
+        }
 
+        // Increment the successful transactions of both users
+        $incremented1 = $transaction->user->successful_transactions + 1;
+        $transaction->user->update(['successful_transactions' => $incremented1]);
+
+        $incremented2 = $transaction->listing->user->successful_transactions + 1;
+        $transaction->listing->user->update(['successful_transactions' => $incremented2]);
+
+        // Redirect to rating page
         request()->session()->flash('success', 'The transaction has been marked as delivered.');
-        return back();
+        return redirect(route('rating.edit', $transaction->id));
     }
 
     /**

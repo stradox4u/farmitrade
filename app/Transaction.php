@@ -32,6 +32,6 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'price_of_goods', 'price_of_logistics', 'insurance_premium', 'platform_fee', 'transaction_status', 'produce', 'unit', 'quantity', 'transaction_id_for_paystack', 'delivery_timeframe', 'insurance_premium_paid',
+        'price_of_goods', 'price_of_logistics', 'insurance_premium', 'platform_fee', 'transaction_status', 'produce', 'unit', 'quantity', 'transaction_id_for_paystack', 'delivery_timeframe', 'insurance_premium_paid', 'buyer_is_rated', 'farmer_is_rated',
     ];
 }

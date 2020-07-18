@@ -21,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/extra-css.css') }}" rel="stylesheet">
 
     <!-- Fontawesome -->
     <script src="https://kit.fontawesome.com/00dea3cce7.js" crossorigin="anonymous"></script>
