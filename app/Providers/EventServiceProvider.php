@@ -15,6 +15,7 @@ use App\Events\SendNotificationSmsEvent;
 use App\Listeners\RetryTransferListener;
 use App\Listeners\SendPossibleTransactions;
 use App\Listeners\VerifyBankAccountListener;
+use App\Listeners\UpdateListingStatusListener;
 use App\Events\WebhookReceivedFromPaystackEvent;
 use App\Listeners\VerifyPaystackPaymentListener;
 use App\Listeners\CreatePaystackRecipientListener;
@@ -50,6 +51,7 @@ class EventServiceProvider extends ServiceProvider
             SendBuyerPaymentConfirmationEmail::class,
             SendFarmerPaymentConfirmationEmail::class,
             TransferLogisticsPaymentToFarmer::class,
+            UpdateListingStatusListener::class,
         ],
         ProduceReceivedEvent::class => [
             TransferProducePaymentToFarmerListener::class,

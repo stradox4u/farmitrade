@@ -59,7 +59,7 @@ class TransactionController extends Controller
         // Find a corresponding listing from the user and mark it as filled
         $userListing = Listing::where([
             ['user_id', auth()->id()],
-            ['produce', 'like', $transaction->produce],
+            ['produce', 'like', '%' . $transaction->produce . '%'],
             ['filled', false]
         ])->first();
         // dd($userListing);
@@ -251,9 +251,8 @@ class TransactionController extends Controller
      */
     public function markDelivered(Transaction $transaction)
     {
-        // Update transaction status and listing filled status
+        // Update transaction status
         $transaction->update(['transaction_status' => 'delivered']);
-        $transaction->listing->update(['filled' => true]);
 
         // Event to release the farmer's produce payment and send him a mail for the same
         event(new ProduceReceivedEvent($transaction));
