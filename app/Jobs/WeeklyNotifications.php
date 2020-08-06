@@ -41,46 +41,44 @@ class WeeklyNotifications implements ShouldQueue
         {
             $myOpenListings = $user->listings()->where('filled', false)->get();
 
-            // Send email if user has open listings
-            if($myOpenListings->isNotEmpty())
+
+            // Get the produce the user has listed for
+            $userListingsProduce = $user->listings()->take(3)->pluck('produce')->toArray();
+
+            // Get 7 matching listings
+            if($user->user_type == 'buyer')
             {
-                // Get the produce the user has listed for
-                $userListingsProduce = $user->listings()->take(3)->pluck('produce')->toArray();
-
-                // Get 7 matching listings
-                if($user->user_type == 'buyer')
+                $relevantListings = collect([]);
+                foreach($userListingsProduce as $produce)
                 {
-                    $relevantListings = collect([]);
-                    foreach($userListingsProduce as $produce)
-                    {
-                        $relevant = Listing::where([
-                            ['produce', 'like', '%' . $produce . '%'],
-                            ['buy_sell', 'sell'],
-                            ['filled', false],
-                            ['user_id', '!=',  auth()->id()],
-                        ])->get();
-                        $relevantListings = $relevantListings->concat($relevant)->take(7);
-                    }
+                    $relevant = Listing::where([
+                        ['produce', 'like', '%' . $produce . '%'],
+                        ['buy_sell', 'sell'],
+                        ['filled', false],
+                        ['user_id', '!=',  auth()->id()],
+                    ])->get();
+                    $relevantListings = $relevantListings->concat($relevant)->take(7);
                 }
-    
-                if($user->user_type == 'farmer')
-                {
-                    $relevantListings = collect([]);
-                    foreach($userListingsProduce as $produce)
-                    {
-                        $relevant = Listing::where([
-                            ['produce', 'like', '%' . $produce . '%'],
-                            ['buy_sell', 'buy'],
-                            ['filled', false],
-                            ['user_id', '!=',  auth()->id()],
-                        ])->get();
-                        $relevantListings = $relevantListings->concat($relevant)->take(7);
-                    }
-                }
-
-                // Send email to users
-                Mail::to($user->email)->send(new WeeklyNotificationMail($user, $relevantListings, $myOpenListings));
             }
+
+            if($user->user_type == 'farmer')
+            {
+                $relevantListings = collect([]);
+                foreach($userListingsProduce as $produce)
+                {
+                    $relevant = Listing::where([
+                        ['produce', 'like', '%' . $produce . '%'],
+                        ['buy_sell', 'buy'],
+                        ['filled', false],
+                        ['user_id', '!=',  auth()->id()],
+                    ])->get();
+                    $relevantListings = $relevantListings->concat($relevant)->take(7);
+                }
+            }
+
+            // Send email to users
+            Mail::to($user->email)->send(new WeeklyNotificationMail($user, $relevantListings, $myOpenListings));
+        
         }
     }
 }
