@@ -9,7 +9,7 @@
 <h2>Quantity:</h2>
 <p>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }}</p>
 <h2>Value:</h2>
-<p>{{ number_format($transaction->price_of_goods / 100, 2) }}</p>
+<p>&#8358;&nbsp;{{ number_format($transaction->price_of_goods / 100, 2) }}</p>
 <h2>Origin:</h2>
 <p>{{ $farmer->profile->shipping_address }}</p>
 <h2>Destination:</h2>
