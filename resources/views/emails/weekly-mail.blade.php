@@ -19,12 +19,12 @@
 <p>There are no current listings that meet your open listings, but not to worry. We have users making listings all the time, so something should come up soon.</p>
 @endforelse
 @else
-<p>We noticed that you have no outstanding unfilled listings. We are sure that we can meet your needs for produce, whatever they may be.</p>
+<p>We noticed that you have no outstanding unfilled listings. We are sure that we can meet your needs for produce, whatever they may be. Please feel free to visit the site and make a listing outlining your requirements at your earliest convenience.</p>
 @endif
 @if($relevantListings->isNotEmpty())
-<p>Please feel free to visit the site and @if($myOpenListings->isNotEmpty())make an offer on any of the above listings @else make a listing outlining your requirements @endif at your earliest convenience.</p>
-<br>
+<p>Please feel free to visit the site and make an offer on any of the above listings at your earliest convenience.</p>
 @endif
+<br>
 <p>Have a beautiful day,</p>
 <p>The Farmitrade&reg; Team.</p>
 @endcomponent
