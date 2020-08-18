@@ -1,6 +1,7 @@
 @component('mail::message')
 <p>Hello {{ $user->name }},</p>
 <br>
+@if ($relevantListings->isNotEmpty()) 
 <p>With respect to the last listing you posted on&nbsp;<a href="https://farmitrade.com.ng">Farmitrade</a>, regarding {{ $listing->quantity }}&nbsp;{{ $listing->unit }}&nbsp;of&nbsp;{{ $listing->produce }}, we are glad to inform you that we have open listings that can match your listing.</p>
 <br>
 <p>Please find some of these listings below.</p>
@@ -16,7 +17,9 @@
 
 @endcomponent
 @endforeach
-
+@else
+<p>Thank you for your last listing on&nbsp;<a href="https://farmitrade.com.ng">Farmitrade</a>, we currently have no open listings that match yours, but not to worry, we have users making listings all the time, so something should come up soon.</p>
+@endif
 <p>Best regards,</p>
 <p>The Farmitrade&reg; Team.</p>
 @endcomponent

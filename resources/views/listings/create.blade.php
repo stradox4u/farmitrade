@@ -29,6 +29,19 @@
                         <div class="form-group row">
 
                             <div class="col w-100">
+                                <input id="produce_quality" type="text" class="form-control @error('produce_quality') is-invalid @enderror" name="produce_quality" value="{{ old('produce_quality') }}" required autocomplete="produce_quality" autofocus placeholder="Produce Quality (Average Description)">
+
+                                @error('produce_quality')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="col w-100">
                                 <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}" required autocomplete="location" autofocus placeholder="Location">
 
                                 @error('location')

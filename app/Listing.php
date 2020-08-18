@@ -22,6 +22,6 @@ class Listing extends Model
      * @var array
      */
     protected $fillable = [
-        'produce', 'location', 'buy_sell', 'quantity', 'unit', 'unit_price', 'filled',
+        'produce', 'produce_quality', 'location', 'buy_sell', 'quantity', 'unit', 'unit_price', 'filled',
     ];
 }

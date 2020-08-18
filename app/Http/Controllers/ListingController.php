@@ -106,6 +106,7 @@ class ListingController extends Controller
         // dd($request);
         $data = $request->validate([
             'produce' => ['required', 'string', 'max:85'],
+            'produce_quality' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:85'],
             'buy_sell' => ['required', 'string'],
             'quantity' => ['numeric', 'required'],
@@ -115,6 +116,7 @@ class ListingController extends Controller
 
         $listing = auth()->user()->listings()->create([
             'produce' => $data['produce'],
+            'produce_quality' => $data['produce_quality'],
             'location' => $data['location'],
             'buy_sell' => $data['buy_sell'],
             'quantity' => $data['quantity'],

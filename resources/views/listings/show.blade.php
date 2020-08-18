@@ -8,6 +8,7 @@
         </div>
         <div class="card-body">
             <h4 class="card-title">Location:&nbsp;{{ $listing->location }}</h4>
+            <h4 class="card-text">Quality:&nbsp;{{ $listing->produce_quality  ?? 'Null'}}</h4>
             <h4 class="card-text">Quantity:&nbsp;{{ $listing->quantity }}&nbsp;{{ $listing->unit }}</h4>
             <p class="card-text">Unit Price: &nbsp;&#8358;&nbsp;{{ $listing->unit_price }}</p>
         </div>
