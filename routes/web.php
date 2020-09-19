@@ -80,3 +80,8 @@ Route::middleware('auth')->group(function()
     
     Route::post('users/{user}/rating', 'RatingsController@update')->name('rating.update');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

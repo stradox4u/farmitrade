@@ -20,6 +20,7 @@
         "laravel/ui": "^2.0",
         "nexmo/client": "^2.0",
         "spatie/laravel-webhook-client": "^2.7",
+        "tcg/voyager": "^1.4",
         "willvincent/laravel-rateable": "^2.2",
         "yabacon/paystack-php": "^2.2"
     },
@@ -67,5 +68,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "hooks": {
+            "type": "composer",
+            "url": "https://larapack.io"
+        }
     }
 }
