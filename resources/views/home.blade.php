@@ -101,7 +101,7 @@
                         <td>{{ $listing->buy_sell }}</td>
                         <td>{{ $listing->quantity }}</td>
                         <td>{{ $listing->unit }}</td>
-                        <td>{{ $listing->unit_price }}</td>
+                        <td>{{ number_format($listing->unit_price /100, 2) }}</td>
                         <td>{{ $listing->filled == false ? 'No' : 'Yes' }}</td>
                     </tr>
                     @endforeach

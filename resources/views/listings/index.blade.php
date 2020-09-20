@@ -31,7 +31,7 @@
                         <td>{{ $listing->location }}</td>
                         <td>{{ $listing->quantity }}</td>
                         <td>{{ $listing->unit }}</td>
-                        <td>{{ $listing->unit_price }}</td>
+                        <td>{{ number_format($listing->unit_price /100, 2) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

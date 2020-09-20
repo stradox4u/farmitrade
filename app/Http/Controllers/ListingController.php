@@ -121,7 +121,7 @@ class ListingController extends Controller
             'buy_sell' => $data['buy_sell'],
             'quantity' => $data['quantity'],
             'unit' => $data['unit'],
-            'unit_price' => $data['unit_price'],
+            'unit_price' => $data['unit_price'] * 100,
         ]);
 
         // Fire event to search database for matching listings and notify their posters
