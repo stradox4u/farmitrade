@@ -52,7 +52,7 @@ class SendSmsListener implements ShouldQueue
 
             if($response['messages'][0]['remaining-balance'] <= 1)
             {
-                Mail::to('smsmanager@farmitrade.com.ng')->send(new NexmoBalanceLowMail);
+                Mail::to('admin@farmitrade.com.ng')->send(new NexmoBalanceLowMail);
             }
         } catch (Exception $e) {
             logger('The message to ' . $recipient . ' was not sent. Error: ' . $e->getMessage());
