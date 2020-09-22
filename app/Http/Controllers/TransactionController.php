@@ -77,11 +77,11 @@ class TransactionController extends Controller
 
         // Event to send text messages to both parties
         $recipient = $transaction->user->profile->phone_number;
-        $message = $transaction->user->name . ' has indicated interest in doing business on your listing of ' . $transaction->listing->quantity . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $recipient . ' to arrange for logistics and delivery.';
+        $message = $transaction->listing->user->name . ' has been notified of your interest in ' . $transaction->listing->quantity . ' ' . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $transaction->listing->user->profile->phone_number . ' to arrange for logistics and delivery.';
         event(new SendNotificationSmsEvent($recipient, $message));
 
         $recipient = $transaction->listing->user->profile->phone_number;
-        $message = $transaction->listing->user->name . ' has been notified of your interest in ' . $transaction->listing->quantity . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $recipient . ' to arrange for logistics and delivery.';
+        $message = $transaction->user->name . ' has indicated interest in doing business on your listing of ' . $transaction->listing->quantity . ' ' . $transaction->listing->unit . ' of ' . $transaction->listing->produce . '. Please make contact on ' . $transaction->user->profile->phone_number . ' to arrange for logistics and delivery.';
         event(new SendNotificationSmsEvent($recipient, $message));
         
 
@@ -301,7 +301,7 @@ class TransactionController extends Controller
         $transaction->update(['transaction_status' => 'in contest']);
 
         // Send email to support
-        Mail::to('mediator@farmitrade.com.ng')->send(new ContestedTransactionMail($transaction));
+        Mail::to('disputes@farmitrade.com.ng')->send(new ContestedTransactionMail($transaction));
 
         request()->session()->flash('success', 'Your complaint has been registered, and a member of our team will be contacting you shortly.');
         return back();
