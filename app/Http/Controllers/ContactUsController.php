@@ -35,6 +35,7 @@ class ContactUsController extends Controller
         ]);
 
         Mail::to('contact@farmitrade.com.ng')->send(new ContactUsMail($data));
+        request()->session()->flash('success', 'We have received your message, thanks!');
         return redirect('home');
     }
 }
