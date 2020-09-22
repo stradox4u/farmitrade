@@ -33,7 +33,7 @@ class GoodsInTransitClosedNotificationMail extends Mailable implements ShouldQue
     public function build()
     {
         return $this->subject($this->transaction->transaction_id_for_paystack . ' G.I.T Closed.')
-                    ->from('insurancecontact@farmitrade.com.ng')
+                    ->from('insurance_contact@farmitrade.com.ng')
                     ->markdown('emails.git-closed');
     }
 }

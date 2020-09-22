@@ -33,7 +33,7 @@ class GoodsInTransitNotificationMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject($this->transaction->transaction_id_for_paystack . ' G.I.T')
-                    ->from('insurancecontact@farmitrade.com.ng')
+                    ->from('insurance_contact@farmitrade.com.ng')
                     ->markdown('emails.contact-insurer');
     }
 }
