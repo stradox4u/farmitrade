@@ -30,7 +30,7 @@ class TransactionController extends Controller
         {
             $listings = Listing::where('user_id', auth()->id())->pluck('id');
             $query->whereIn('listing_id', $listings);
-        })->paginate(10);
+        })->latest()->paginate(10);
 
         return view('transactions.index', compact('transactions'));
     }
