@@ -69,7 +69,7 @@ Route::get('/success', 'PaymentController@handleGatewayCallback')->name('paystac
 
 Route::webhooks('/webhook', 'paystack');
 
-Route::webhooks('/nexmo/webhook', 'nexmo');
+// Route::webhooks('/nexmo/webhook', 'nexmo');
 
 Route::get('/contact', 'ContactUsController@create')->name('contact.create');
 
