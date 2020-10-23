@@ -64,7 +64,7 @@ class PaymentController extends Controller
         {
             // logger($e->getResponseObject());
             request()->session()->flash('error', $e->getMessage());
-            return route('home');
+            return back();
         }
 
         // Put payment to database
