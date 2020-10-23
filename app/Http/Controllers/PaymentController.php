@@ -40,7 +40,7 @@ class PaymentController extends Controller
         $amount = $data['amount'] + $paystackFee;
 
         // Get Subaccount
-        $subaccount = PaystackSubaccount::find(1);
+        $subaccount = PaystackSubaccount::find(2);
         $subCode = $subaccount->subaccount_code;
 
         // Get amount to feed into main account
