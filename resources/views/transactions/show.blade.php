@@ -17,7 +17,7 @@
             <hr>
             <br>
 
-            <h4 class="card-title">Platform Fee (7.5%):</h4>
+            <h4 class="card-title">Platform Fee ({{ setting('site.platform_fee') }}%):</h4>
             <p class="card-text">&#8358;&nbsp;{{ number_format($transaction->platform_fee / 100, 2) }}</p>
             <hr>
             <br>
