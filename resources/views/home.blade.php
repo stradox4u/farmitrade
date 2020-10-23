@@ -97,7 +97,7 @@
                 <tbody>
                     @foreach($listings as $listing)
                     <tr @if($listing->filled) class="bg-success" @endif>
-                        <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ $listing->produce }}</td></a>
+                        <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ ucwords($listing->produce) }}</td></a>
                         <td>{{ $listing->buy_sell }}</td>
                         <td>{{ $listing->quantity }}</td>
                         <td>{{ $listing->unit }}</td>

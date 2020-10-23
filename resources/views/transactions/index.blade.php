@@ -17,7 +17,7 @@
         <tbody>
             @foreach($transactions as $transaction)
             <tr>
-                <td>{{ $transaction->produce }}</td>
+                <td>{{ ucwords($transaction->produce) }}</td>
                 <td>{{ $transaction->quantity }}</td>
                 <td>{{ $transaction->unit }}</td>
                 <td>{{ $transaction->transaction_id_for_paystack }}</td>

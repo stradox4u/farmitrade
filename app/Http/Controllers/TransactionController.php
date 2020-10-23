@@ -6,6 +6,7 @@ use App\Listing;
 use Carbon\Carbon;
 use App\Transaction;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\MakePaymentNowEmail;
 use App\Events\ProduceReceivedEvent;
@@ -58,11 +59,11 @@ class TransactionController extends Controller
 
         // Find a corresponding listing from the user and mark it as filled
         $userListing = Listing::where([
-            ['user_id', auth()->id()],
             ['produce', 'like', '%' . $transaction->produce . '%'],
-            ['filled', false]
+            ['user_id', '=', auth()->id()],
+            ['filled', '=', false],
         ])->first();
-        // dd($transaction->produce);
+        // dd(Str::singular('poultry broilers'));
         $userListing->update(['filled' => true]);
 
 

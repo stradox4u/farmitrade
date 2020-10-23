@@ -1,7 +1,7 @@
 @component('mail::message')
 <p>Hello {{ $farmer->name }},</p>
 <br>
-<p>Your transaction with id:&nbsp;{{ $transaction->transaction_id_for_paystack }}, to supply {{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ $transaction->produce }} has been received by the buyer.</p>
+<p>Your transaction with id:&nbsp;{{ $transaction->transaction_id_for_paystack }}, to supply {{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ ucwords($transaction->produce) }} has been received by the buyer.</p>
 <br>
 <p>Your funds for the cost of the produce, have thus been released from escrow, and been transferred to your bank account.</p>
 <p>Please visit {{ route('rating.edit', $transaction->id) }} to rate your experience with the other party on this transaction.</p>

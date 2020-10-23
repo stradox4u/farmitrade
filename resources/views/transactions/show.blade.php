@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card col">
         <div class="card-header">
-            <h3>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ $transaction->produce }}, from {{ $transaction->listing->location }}</h3>
+            <h3>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }} of {{ ucwords($transaction->produce) }}, from {{ $transaction->listing->location }}</h3>
         </div>
         <div class="card-body">
             <h4 class="card-title">Price of Goods:</h4>

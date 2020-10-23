@@ -18,7 +18,7 @@
                         <div class="form-group row">
 
                             <div class="col w-100">
-                                    <input id="produce" type="text" class="form-control @error('produce') is-invalid @enderror" name="produce" autocomplete="produce" autofocus value="{{ $transaction->produce }}" readonly>
+                                    <input id="produce" type="text" class="form-control @error('produce') is-invalid @enderror" name="produce" autocomplete="produce" autofocus value="{{ ucwords($transaction->produce) }}" readonly>
 
                                 @error('produce')
                                     <span class="invalid-feedback" role="alert">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Listing;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\ListingCreated;
 
@@ -115,7 +116,7 @@ class ListingController extends Controller
         ]);
 
         $listing = auth()->user()->listings()->create([
-            'produce' => $data['produce'],
+            'produce' => strtolower(Str::singular($data['produce'])),
             'produce_quality' => $data['produce_quality'],
             'location' => $data['location'],
             'buy_sell' => $data['buy_sell'],

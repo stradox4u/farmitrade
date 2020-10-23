@@ -5,7 +5,7 @@
 <br>
 @component('mail::panel')
 <h2>Produce:</h2>
-<p>{{ $transaction->produce }}</p>
+<p>{{ ucwords($transaction->produce) }}</p>
 <h2>Quantity:</h2>
 <p>{{ $transaction->quantity }}&nbsp;{{ $transaction->unit }}</p>
 <h2>Value:</h2>
