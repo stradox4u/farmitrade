@@ -85,4 +85,8 @@ Route::middleware('auth')->group(function()
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('/subaccount/create', 'PaystackSubaccountController@create')->name('subaccount.create')->middleware('auth');
+
+    Route::post('/subaccount/store', 'PaystackSubaccountController@store')->name('subaccount.store')->middleware('auth');
 });

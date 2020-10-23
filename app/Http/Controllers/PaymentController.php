@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Payment;
 use App\Transaction;
 use Yabacon\Paystack;
+use App\PaystackSubaccount;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -38,6 +39,14 @@ class PaymentController extends Controller
 
         $amount = $data['amount'] + $paystackFee;
 
+        // Get Subaccount
+        $subaccount = PaystackSubaccount::find(1);
+        $subCode = $subaccount->subaccount_code;
+
+        // Get amount to feed into main account
+        $transaction = Transaction::where('transaction_id_for_paystack', $data['orderId'])->first();
+        $charge = $amount - $transaction->platform_fee;
+
         // Initialize transaction
         $paystack = new Paystack(config('paystack.secret_key'));
 
@@ -47,6 +56,8 @@ class PaymentController extends Controller
                 'email' => $data['email'],
                 'orderId' => $data['orderId'],
                 'amount' => $amount,
+                'subaccount' => $subCode,
+                'transaction_charge' => $charge,
                 'metadata' => $data['metadata'],
             ]);
         } catch(\Yabacon\Paystack\Exception\ApiException $e)
@@ -57,7 +68,6 @@ class PaymentController extends Controller
         }
 
         // Put payment to database
-        $transaction = Transaction::where('transaction_id_for_paystack', $data['orderId'])->first();
         if($data['insurance_paid'] == 'false')
         {
             $insurancePaid = false;
