@@ -34,5 +34,10 @@ class AuthServiceProvider extends ServiceProvider
         {
             return $user->canEdit($user->profile);
         });
+
+        Gate::define('create-subaccount', function($user)
+        {
+            return $user->hasRole('admin');
+        });
     }
 }

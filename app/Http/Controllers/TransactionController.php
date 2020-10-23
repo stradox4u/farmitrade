@@ -159,8 +159,8 @@ class TransactionController extends Controller
         // Calculate Insurance Premium based on 0.65% of value of goods
         $insurancePremium = round($data['price_of_goods'] * 0.0065 * 100);
 
-        // Calculate Platform Fee based on 5% of value of goods
-        $platformFee = round($data['price_of_goods'] * 0.05 * 100);
+        // Calculate Platform Fee based on 7.5% of value of goods
+        $platformFee = round($data['price_of_goods'] * 0.075 * 100);
 
         // Convert prices to kobo before putting to database---------
         $goodsPrice = round($data['price_of_goods'] * 100);

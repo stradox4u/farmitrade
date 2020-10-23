@@ -62,7 +62,7 @@ class PaymentController extends Controller
             ]);
         } catch(\Yabacon\Paystack\Exception\ApiException $e)
         {
-            // logger($e->getResponseObject());
+            logger($e->getResponseObject());
             request()->session()->flash('error', $e->getMessage());
             return back();
         }
