@@ -45,7 +45,13 @@ class PaymentController extends Controller
 
         // Get amount to feed into main account
         $transaction = Transaction::where('transaction_id_for_paystack', $data['orderId'])->first();
-        $charge = $amount - $transaction->platform_fee;
+        if($data['insurance_paid'] == 'false')
+        {
+            $charge = $amount - $transaction->platform_fee;
+        } else 
+        {
+            $charge = $amount - $transaction->platform_fee - $transaction->insurance_premium;
+        }
 
         // Initialize transaction
         $paystack = new Paystack(config('paystack.secret_key'));
