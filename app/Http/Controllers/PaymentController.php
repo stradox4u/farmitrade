@@ -48,9 +48,11 @@ class PaymentController extends Controller
         if($data['insurance_paid'] == 'false')
         {
             $charge = $amount - $transaction->platform_fee;
+            $insurancePaid = false;
         } else 
         {
             $charge = $amount - $transaction->platform_fee - $transaction->insurance_premium;
+            $insurancePaid = true;
         }
 
         // Initialize transaction
@@ -74,14 +76,6 @@ class PaymentController extends Controller
         }
 
         // Put payment to database
-        if($data['insurance_paid'] == 'false')
-        {
-            $insurancePaid = false;
-        } else 
-        {
-            $insurancePaid = true;
-        }
-        
         $payment = $transaction->payment()->create([
             'paystack_reference' => $tranx->data->reference,
             'total_amount' => $amount,
