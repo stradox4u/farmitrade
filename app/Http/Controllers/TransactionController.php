@@ -208,8 +208,17 @@ class TransactionController extends Controller
      * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function markShipped(Transaction $transaction)
+    public function markShipped(Request $request, Transaction $transaction)
     {
+        // Validate Request Data
+        $data = $request->validate([
+            'sent_via' => ['required', 'string', 'max:85'],
+            'vehicle_description' => ['required', 'string', 'max:85'],
+            'bearer_name' => ['required', 'string', 'max:85'],
+            'bearer_phone_number' => ['required', 'string', 'max:85'],
+        ]);
+            // dd($transaction);
+
         // Get buyer and farmer
         if($transaction->user->user_type == 'buyer')
         {
@@ -222,8 +231,14 @@ class TransactionController extends Controller
         }
 
         // Update transaction status
-        $transaction->update(['transaction_status' => 'shipped']);
-
+        $transaction->update([
+            'transaction_status' => 'shipped',
+            'sent_via' => $data['sent_via'],
+            'vehicle_description' => $data['vehicle_description'],
+            'bearer_name' => $data['bearer_name'],
+            'bearer_phone_number' => $data['bearer_phone_number'],
+            ]);
+            // dd($transaction);
         // Notify the insurer of the shipment if insurance premium was paid
         if($transaction->insurance_premium_paid)
         {
@@ -235,7 +250,7 @@ class TransactionController extends Controller
 
         // Send buyer text message notifying that produce has been shipped
         $recipient = $buyer->profile->phone_number;
-        $message = 'Your transaction with id:' . $transaction->transaction_id_for_paystack . ', to buy ' . $transaction->quantity . $transaction->unit . ' of ' . $transaction->produce . ' from ' . $transaction->listing->location . ' has been shipped. Please mark as received, once you confirm receipt.';
+        $message = 'Your transaction with id:' . $transaction->transaction_id_for_paystack . ', to buy ' . $transaction->quantity . $transaction->unit . ' of ' . $transaction->produce . ' from ' . $transaction->listing->location . ' has been shipped. It was sent via ' . $transaction->sent_via . ', with ' . $transaction->vehicle_description . '. The bearer is ' . $transaction->bearer_name . ' and is reachable on ' . $transaction->bearer_phone_number . ' Please mark as received, once you confirm receipt.';
         
         event(new SendNotificationSmsEvent($recipient, $message));
 

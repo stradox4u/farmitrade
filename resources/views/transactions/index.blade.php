@@ -27,11 +27,53 @@
                     {{-- Buttons Unique to the farmer --}}
                     @if(auth()->user()->user_type == 'farmer')
                     <div class="pr-3">
-                        <form action="{{ route('transaction.shipped', $transaction->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="col btn btn-block btn-lg btn-success shadow-sm" @if($transaction->payment == null || $transaction->transaction_status == 'shipped' || $transaction->transaction_status == 'delivered' || $transaction->transaction_status == 'in contest') disabled @endif>Shipped</button>
-                        </form>
+                        <button type="submit" data-toggle="modal" data-target="#courierDetailsModal" class="col btn btn-block btn-lg btn-success shadow-sm" @if($transaction->payment == null || $transaction->transaction_status == 'shipped' || $transaction->transaction_status == 'delivered' || $transaction->transaction_status == 'in contest') disabled @endif>Shipped</button>
+
+                        {{-- Modal to enter courier details --}}
+                        <div class="modal fade" id="courierDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Enter The Courier's Details Here</h5>
+                                    </div>
+                                    <form action="{{ route('transaction.shipped', $transaction->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="modal-body px-3">
+                                            <div class="form-group row">
+                                                <div class="col w-100">
+                                                    <label for="sent_via" class="col-form-label">Sent Via:</label>
+                                                    <input type="text" class="form-control" id="sent_via" name="sent_via">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col w-100">
+                                                    <label for="vehicle_description" class="col-form-label">Vehicle Description:</label>
+                                                    <input type="text" class="form-control" id="vehicle_description" name="vehicle_description">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col w-100">
+                                                    <label for="bearer_name" class="col-form-label">Bearer Name:</label>
+                                                    <input type="text" class="form-control" id="bearer_name" name="bearer_name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col w-100">
+                                                    <label for="bearer_phone_number" class="col-form-label">Bearer Phone Number:</label>
+                                                    <input type="text" class="form-control" id="bearer_phone_number" name="bearer_phone_number">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success btn-lg btn-block shadow-sm" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success btn-lg btn-block shadow-sm">Confirm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="pr-3">

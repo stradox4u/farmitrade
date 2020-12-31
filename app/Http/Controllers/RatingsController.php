@@ -64,6 +64,7 @@ class RatingsController extends Controller
             $transaction->update(['farmer_is_rated' => true]);
         }
         // dd($user->averageRating());
+        request()->session()->flash('success', 'Thanks, your rating has been saved.');
         return redirect(route('transaction.index', auth()->id()));
     }
 }
