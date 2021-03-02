@@ -94,7 +94,7 @@
                             <div class="form-group row mb-0 py-3">
                                 <div class="col w-100">
                                     <p class="text-center">By clicking below, you assent to our 
-                                        <a href="{{ asset('storage/terms/tAndC.pdf') }}" download>Terms of Use & Privacy Policy</a>
+                                        <a href="{{ asset('/storage/terms/tAndC.pdf') }}" download>Terms of Use & Privacy Policy</a>
                                     </p>
                                     <button type="submit" class="btn btn-success btn-lg btn-block shadow-sm">
                                         {{ __('Register') }}
