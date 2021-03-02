@@ -1,7 +1,7 @@
 @component('mail::message')
 <p>Hello Insurer Contact,</p>
 <br>
-<p>With respect to our Goods in Transit insurance policy xxxxxxxxxx with your organization, a transaction was just made, with the details below.</p>
+<p>With respect to our Goods in Transit insurance policy {{ setting('site.insurance_policy') }} with your organization, a transaction was just made, with the details below.</p>
 <br>
 @component('mail::panel')
 <h2>Produce:</h2>
