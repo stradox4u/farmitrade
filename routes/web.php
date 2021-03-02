@@ -2,6 +2,7 @@
 
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,10 @@ Route::middleware('auth')->group(function()
     Route::patch('transaction/{transaction}/received', 'TransactionController@markDelivered')->name('transaction.received');
 
     Route::patch('transaction/{transaction}/contest', 'TransactionController@makeClaim')->name('transaction.contest');
+    
+    Route::get('/contact', 'ContactUsController@create')->name('contact.create');
+    
+    Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');
 });
 
 Route::post('/pay', 'PaymentController@payNow')->name('pay');
@@ -71,9 +76,6 @@ Route::webhooks('/webhook', 'paystack');
 
 // Route::webhooks('/nexmo/webhook', 'nexmo');
 
-Route::get('/contact', 'ContactUsController@create')->name('contact.create');
-
-Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');
 
 Route::middleware('auth')->group(function()
 {
@@ -93,3 +95,5 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/subaccount/store', 'PaystackSubaccountController@store')->name('subaccount.store')->middleware('auth');
     });
 });
+
+

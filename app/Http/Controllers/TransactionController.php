@@ -242,7 +242,9 @@ class TransactionController extends Controller
         // Notify the insurer of the shipment if insurance premium was paid
         if($transaction->insurance_premium_paid)
         {
-            Mail::to('insurer@insurer.com')->send(new GoodsInTransitNotificationMail($transaction, $farmer));
+            Mail::to(setting('site.insurance_primary'))
+                ->cc(setting('site.insurance_secondary'))
+                ->send(new GoodsInTransitNotificationMail($transaction, $farmer));
         }
 
         // Send email to the buyer
@@ -290,7 +292,9 @@ class TransactionController extends Controller
         // Send email to insurer if insurance premium was paid
         if($transaction->insurance_premium_paid)
         {
-            Mail::to('insurer@insurer.com')->send(new GoodsInTransitClosedNotificationMail($transaction, $farmer));
+            Mail::to(setting('site.insurance_primary'))
+            ->cc(setting('site.insurance_secondary'))
+            ->send(new GoodsInTransitClosedNotificationMail($transaction, $farmer));
         }
 
         // Increment the successful transactions of both users
