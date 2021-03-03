@@ -63,9 +63,12 @@ Route::middleware('auth')->group(function()
 
     Route::patch('transaction/{transaction}/contest', 'TransactionController@makeClaim')->name('transaction.contest');
     
-    Route::get('/contact', 'ContactUsController@create')->name('contact.create');
-    
-    Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');
+    Route::middleware('verified')->group(function() 
+    {
+        Route::get('/contact', 'ContactUsController@create')->name('contact.create');
+        
+        Route::post('/contact/store', 'ContactUsController@store')->name('contact.store');
+    });
 });
 
 Route::post('/pay', 'PaymentController@payNow')->name('pay');
