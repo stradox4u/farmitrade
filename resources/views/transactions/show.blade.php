@@ -82,8 +82,23 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>We have partnered with <strong>Leadway Assurance Plc</strong> to provide you with insurance cover for your produce, while in transit. If you choose to pay the insurance premium, you will be covered for any loss suffered in the course of transit and during the period of transit, up to the full value of the goods insured.</p>
+                    <p>We have partnered with <strong>Leadway Assurance Plc</strong> to provide you with insurance cover for your produce, while in transit. If you choose to pay the insurance premium, you will be covered for any loss suffered in the course of transit and during the period of transit, within the limits of coverage.</p>
                     <p>This service leverages their Goods in Transit Insurance Policy.</p>
+                    <p>Exceptions to this policy are:</p>
+                    <ul>
+                        <li>
+                            <p>The carriage vehicle must have its complete papers, as required by law.</p>
+                        </li>
+                        <li>
+                            <p>The carriage vehicle must be driven by a properly licensed driver, as permitted by law.</p>
+                        </li>
+                        <li>
+                            <p>The goods must be accompanied with a waybill stating the amount and type of the goods carried.</p>
+                        </li>
+                        <li>
+                            <p>Perishable goods shall not be covered by this insurance policy.<p>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="modal-footer d-flex flex-row justify-content-between">
