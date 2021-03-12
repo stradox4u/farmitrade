@@ -95,7 +95,7 @@ class ProfileController extends Controller
             event(new ProfileCreatedEvent($profile));
         }
 
-        return redirect(route('profile.show', $profile->id));
+        return redirect(route('profile.show', $profile));
     }
 
     /**
@@ -119,7 +119,6 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        $profile = auth()->user()->profile;
         return view('profiles.edit', compact('profile'));
     }
 
@@ -194,7 +193,7 @@ class ProfileController extends Controller
         {
             event(new ProfileUpdatedEvent($profile));
         }
-        return redirect(route('profile.show', $profile->id, compact('profile')));
+        return redirect(route('profile.show', $profile, compact('profile')));
     }
 
     /**

@@ -129,7 +129,7 @@ class ListingController extends Controller
         $user = auth()->user();
         event(new ListingCreated($listing, $user));
 
-        return redirect(route('listing.show', $listing->id));
+        return redirect(route('listing.show', $listing));
     }
 
     /**
@@ -140,7 +140,6 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
-        $listing = Listing::where('id', $listing->id)->first();
         return view('listings.show', compact('listing'));
     }
 

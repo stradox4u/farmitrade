@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    use Uuids;
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -32,6 +35,22 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'price_of_goods', 'price_of_logistics', 'insurance_premium', 'platform_fee', 'transaction_status', 'produce', 'unit', 'quantity', 'transaction_id_for_paystack', 'delivery_timeframe', 'insurance_premium_paid', 'buyer_is_rated', 'farmer_is_rated', 'sent_via', 'vehicle_description', 'bearer_name', 'bearer_phone_number',
+        'price_of_goods',
+        'price_of_logistics',
+        'insurance_premium',
+        'platform_fee',
+        'transaction_status',
+        'produce',
+        'unit',
+        'quantity',
+        'transaction_id_for_paystack',
+        'delivery_timeframe',
+        'insurance_premium_paid',
+        'buyer_is_rated',
+        'farmer_is_rated',
+        'sent_via',
+        'vehicle_description',
+        'bearer_name',
+        'bearer_phone_number',
     ];
 }

@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('profile.update', $profile->id) }}" enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('profile.update', $profile) }}" enctype="multipart/form-data" >
                         @csrf
 
                         @method('PATCH')
@@ -129,7 +129,7 @@
                             </div>
                         </div>
                     </form>
-                    <form action="{{ route('profile.destroy', $profile->id) }}" method="POST">
+                    <form action="{{ route('profile.destroy', $profile) }}" method="POST">
                         @csrf
                         @method('DELETE')
 

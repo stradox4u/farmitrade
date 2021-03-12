@@ -105,7 +105,6 @@ class TransactionController extends Controller
         {
             if(($transaction->user_id == auth()->id() || $transaction->listing->user_id == auth()->id()))
             {
-                $transaction = Transaction::where('id', $transaction->id)->first();
                 return view('transactions.show', compact('transaction'));
             }
         } else
@@ -128,7 +127,6 @@ class TransactionController extends Controller
         {
             if(($transaction->user_id == auth()->id() || $transaction->listing->user_id == auth()->id()))
             {
-                $transaction = Transaction::where('id', $transaction->id)->first();
                 return view('transactions.edit', compact('transaction'));
             }
         } else 

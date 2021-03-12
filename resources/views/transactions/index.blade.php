@@ -36,7 +36,7 @@
                                     <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Enter The Courier's Details Here</h5>
                                     </div>
-                                    <form action="{{ route('transaction.shipped', $transaction->id) }}" method="POST">
+                                    <form action="{{ route('transaction.shipped', $transaction) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <div class="modal-body px-3">
@@ -77,18 +77,18 @@
                     </div>
 
                     <div class="pr-3">
-                        <a href="{{ route('transaction.edit', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->payment !== null) disabled @endif">Update</a>
+                        <a href="{{ route('transaction.edit', $transaction) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->payment !== null) disabled @endif">Update</a>
                     </div>
 
                     @elseif(auth()->user()->user_type == 'buyer')
 
                     {{-- Buttons Unique to the buyer --}}
                     <div class="pr-3">
-                        <a href="{{ route('transaction.show', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->payment !== null) disabled @endif">Make Payment</a>
+                        <a href="{{ route('transaction.show', $transaction) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->payment !== null) disabled @endif">Make Payment</a>
                     </div>
 
                     <div class="pr-3">
-                        <form action="{{ route('transaction.received', $transaction->id) }}" method="POST">
+                        <form action="{{ route('transaction.received', $transaction) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="col btn btn-block btn-lg btn-success shadow-sm" @if($transaction->transaction_status == 'delivered') disabled @endif>Received</button>
@@ -99,7 +99,7 @@
 
                     {{-- Make Claim Button --}}
                     <div class="pr-3">
-                        <form action="{{ route('transaction.contest', $transaction->id) }}" method="POST">
+                        <form action="{{ route('transaction.contest', $transaction) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="col btn btn-block btn-lg btn-danger shadow-sm" @if($transaction->transaction_status == 'in contest' || $transaction->transaction_status == 'delivered') disabled @endif>Make Claim</button>
@@ -109,11 +109,11 @@
                     {{-- Rating Button --}}
                     @if(auth()->user()->user_type == 'farmer')
                     <div class="pr-3">
-                        <a href="{{ route('rating.edit', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->buyer_is_rated == true) disabled @endif">Rate</a>
+                        <a href="{{ route('rating.edit', $transaction) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->buyer_is_rated == true) disabled @endif">Rate</a>
                     </div>
                     @elseif(auth()->user()->user_type == 'buyer')
                     <div class="pr-3">
-                        <a href="{{ route('rating.edit', $transaction->id) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->farmer_is_rated == true) disabled @endif">Rate</a>
+                        <a href="{{ route('rating.edit', $transaction) }}" class="col btn btn-block btn-lg btn-success shadow-sm @if($transaction->farmer_is_rated == true) disabled @endif">Rate</a>
                     </div>
                     @endif
                 </td>

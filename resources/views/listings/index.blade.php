@@ -27,7 +27,7 @@
                     @foreach($listings as $listing)
                     <tr>
                         <td scope="row">{{ $loop->iteration }}</td>
-                        <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ ucwords($listing->produce) }}</a></td>
+                        <td><a href="{{ route('listing.show', $listing) }}" class="text-dark text-decoration-none">{{ ucwords($listing->produce) }}</a></td>
                         <td>{{ $listing->location }}</td>
                         <td>{{ $listing->quantity }}</td>
                         <td>{{ $listing->unit }}</td>

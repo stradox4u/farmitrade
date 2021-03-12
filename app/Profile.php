@@ -2,10 +2,14 @@
 
 namespace App;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    use Uuids;
+
+    
     public function user()
     {
         return $this->belongsTo('App\User');

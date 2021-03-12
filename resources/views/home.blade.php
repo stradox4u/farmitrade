@@ -53,21 +53,21 @@
         <div class="container row d-flex justify-content-between mb-3 mx-auto">
             @if(auth()->user()->profile == [])
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('profile.create', auth()->id()) }}" class="btn btn-block btn-success">Create Profile</a>
+                <a href="{{ route('profile.create', auth()->user()) }}" class="btn btn-block btn-success">Create Profile</a>
             </div>
             @else
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3"> 
-                <a href="{{ route('profile.edit', auth()->user()->profile->id) }}" class="btn btn-block btn-success">Edit Profile</a>
+                <a href="{{ route('profile.edit', auth()->user()->profile) }}" class="btn btn-block btn-success">Edit Profile</a>
             </div>
             @endif
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('listing.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">{{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
+                <a href="{{ route('listing.index', auth()->user()) }}" class="btn btn-block btn-success shadow-sm">{{ auth()->user()->user_type == 'buyer' ? 'Farmer' : 'Buyer' }} Listings</a>
             </div>
             <div class="py-3 pr-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('listing.create', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">Make Listing</a>
+                <a href="{{ route('listing.create', auth()->user()) }}" class="btn btn-block btn-success shadow-sm">Make Listing</a>
             </div>
             <div class="py-3 shadow-sm col-sm-6 col-lg-3">
-                <a href="{{ route('transaction.index', auth()->id()) }}" class="btn btn-block btn-success shadow-sm">My Transactions</a>
+                <a href="{{ route('transaction.index', auth()->user()) }}" class="btn btn-block btn-success shadow-sm">My Transactions</a>
             </div>
         </div>
         {{-- End of Row of Buttons --}}
@@ -97,7 +97,7 @@
                 <tbody>
                     @foreach($listings as $listing)
                     <tr @if($listing->filled) class="bg-success" @endif>
-                        <td><a href="{{ route('listing.show', $listing->id) }}" class="text-dark text-decoration-none">{{ ucwords($listing->produce) }}</td></a>
+                        <td><a href="{{ route('listing.show', $listing) }}" class="text-dark text-decoration-none">{{ ucwords($listing->produce) }}</td></a>
                         <td>{{ $listing->buy_sell }}</td>
                         <td>{{ $listing->quantity }}</td>
                         <td>{{ $listing->unit }}</td>

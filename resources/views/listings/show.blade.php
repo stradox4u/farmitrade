@@ -37,7 +37,7 @@
 
         @if(auth()->id() == $listing->user->id)
         <div class="col">
-            <form action="{{ route('listing.destroy', $listing->id) }}" method="POST">
+            <form action="{{ route('listing.destroy', $listing) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 
@@ -48,7 +48,7 @@
 
         @if(auth()->id() !== $listing->user->id)
             <div class="col">
-                <form action="{{ route('transaction.store', $listing->id) }}" method="POST">
+                <form action="{{ route('transaction.store', $listing) }}" method="POST">
                     @csrf
 
                     <input type="hidden" name="relevant_listing" value="{{ $listing->id }}">

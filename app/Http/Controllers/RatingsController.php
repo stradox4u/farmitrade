@@ -13,9 +13,9 @@ class RatingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($transaction)
     {
-        return view('ratings.edit', compact('id'));
+        return view('ratings.edit', compact('transaction'));
     }
 
     /**
@@ -25,11 +25,10 @@ class RatingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Transaction $transaction)
     {
         // dd($request);
         $rating = $request['starRating'];
-        $transaction = Transaction::where('id', $id)->first();
         
         // If the user has already rated the other party on this transaction, bounce them back
         if(auth()->user()->user_type == 'farmer' && $transaction->buyer_is_rated == true)

@@ -30,7 +30,7 @@
 
     <div class="container row pt-3 d-flex justify-content-between">
         <div class="container col">
-            <a href="{{ route('profile.edit', $profile->id) }}" class="btn btn-lg btn-block btn-success shadow-sm">Edit Profile</a>
+            <a href="{{ route('profile.edit', $profile) }}" class="btn btn-lg btn-block btn-success shadow-sm">Edit Profile</a>
         </div>
         <div class="container col">
             <a href="{{ route('home') }}" class="btn btn-lg btn-block btn-success shadow-sm">Back to Dashboard</a>

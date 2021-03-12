@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Uuids;
 use willvincent\Rateable\Rateable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,6 +12,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 {
     use Notifiable;
     use Rateable;
+    use Uuids;
 
     /**
      * The attributes that are mass assignable.

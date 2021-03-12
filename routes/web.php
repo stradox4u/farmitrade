@@ -25,43 +25,43 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 
 Route::middleware('auth')->group(function()
 {
-    Route::get('users/{user}/profile/create', 'ProfileController@create')->name('profile.create');
+    Route::get('users/{user:uuid}/profile/create', 'ProfileController@create')->name('profile.create');
     
-    Route::post('users/{user}/profile', 'ProfileController@store')->name('profile.store');
+    Route::post('users/{user:uuid}/profile', 'ProfileController@store')->name('profile.store');
     
-    Route::get('profile/{profile}', 'ProfileController@show')->name('profile.show');
+    Route::get('profile/{profile:uuid}', 'ProfileController@show')->name('profile.show');
     
-    Route::get('profile/{profile}/edit', 'ProfileController@edit')->name('profile.edit');
+    Route::get('profile/{profile:uuid}/edit', 'ProfileController@edit')->name('profile.edit');
     
-    Route::patch('profile/{profile}', 'ProfileController@update')->name('profile.update');
+    Route::patch('profile/{profile:uuid}', 'ProfileController@update')->name('profile.update');
     
-    Route::delete('profile/{profile}', 'ProfileController@destroy')->name('profile.destroy');
+    Route::delete('profile/{profile:uuid}', 'ProfileController@destroy')->name('profile.destroy');
     
-    Route::get('users/{user}/listing', 'ListingController@index')->name('listing.index');
+    Route::get('users/{user:uuid}/listing', 'ListingController@index')->name('listing.index');
     
-    Route::get('users/{user}/listing/create', 'ListingController@create')->name('listing.create');
+    Route::get('users/{user:uuid}/listing/create', 'ListingController@create')->name('listing.create');
     
-    Route::post('users/{user}/listing', 'ListingController@store')->name('listing.store');
+    Route::post('users/{user:uuid}/listing', 'ListingController@store')->name('listing.store');
     
-    Route::get('listing/{listing}', 'ListingController@show')->name('listing.show');
+    Route::get('listing/{listing:uuid}', 'ListingController@show')->name('listing.show');
     
-    Route::delete('listing/{listing}', 'ListingController@destroy')->name('listing.destroy');
+    Route::delete('listing/{listing:uuid}', 'ListingController@destroy')->name('listing.destroy');
     
-    Route::post('listing/{listing}/transaction', 'TransactionController@store')->name('transaction.store');
+    Route::post('listing/{listing:uuid}/transaction', 'TransactionController@store')->name('transaction.store');
     
-    Route::get('transaction/{transaction}/edit', 'TransactionController@edit')->name('transaction.edit');
+    Route::get('transaction/{transaction:uuid}/edit', 'TransactionController@edit')->name('transaction.edit');
     
-    Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
+    Route::patch('transaction/{transaction:uuid}', 'TransactionController@update')->name('transaction.update');
 
-    Route::get('transactions/{transaction}', 'TransactionController@show')->name('transaction.show');
+    Route::get('transactions/{transaction:uuid}', 'TransactionController@show')->name('transaction.show');
     
-    Route::get('users/{user}/transactions', 'TransactionController@index')->name('transaction.index');
+    Route::get('users/{user:uuid}/transactions', 'TransactionController@index')->name('transaction.index');
 
-    Route::patch('transaction/{transaction}/shipped', 'TransactionController@markShipped')->name('transaction.shipped');
+    Route::patch('transaction/{transaction:uuid}/shipped', 'TransactionController@markShipped')->name('transaction.shipped');
     
-    Route::patch('transaction/{transaction}/received', 'TransactionController@markDelivered')->name('transaction.received');
+    Route::patch('transaction/{transaction:uuid}/received', 'TransactionController@markDelivered')->name('transaction.received');
 
-    Route::patch('transaction/{transaction}/contest', 'TransactionController@makeClaim')->name('transaction.contest');
+    Route::patch('transaction/{transaction:uuid}/contest', 'TransactionController@makeClaim')->name('transaction.contest');
     
     Route::middleware('verified')->group(function() 
     {
@@ -82,9 +82,9 @@ Route::webhooks('/webhook', 'paystack');
 
 Route::middleware('auth')->group(function()
 {
-    Route::get('users/{transaction}/rate', 'RatingsController@edit')->name('rating.edit');
+    Route::get('users/{transaction:uuid}/rate', 'RatingsController@edit')->name('rating.edit');
     
-    Route::post('users/{user}/rating', 'RatingsController@update')->name('rating.update');
+    Route::post('users/{user:uuid}/rating', 'RatingsController@update')->name('rating.update');
 });
 
 

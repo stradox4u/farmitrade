@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('profile.store', auth()->id()) }}" enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('profile.store', auth()->user()) }}" enctype="multipart/form-data" >
                         @csrf
 
                         <div class="form-group row">

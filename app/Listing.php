@@ -2,10 +2,14 @@
 
 namespace App;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
+    use Uuids;
+
+    
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -22,6 +26,13 @@ class Listing extends Model
      * @var array
      */
     protected $fillable = [
-        'produce', 'produce_quality', 'location', 'buy_sell', 'quantity', 'unit', 'unit_price', 'filled',
+        'produce',
+        'produce_quality',
+        'location',
+        'buy_sell',
+        'quantity',
+        'unit',
+        'unit_price',
+        'filled',
     ];
 }

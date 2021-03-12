@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('transaction.update', $transaction->id) }}">
+                    <form method="POST" action="{{ route('transaction.update', $transaction) }}">
                         @csrf
 
                         @method('PATCH')

@@ -18,7 +18,7 @@
                             <li class="list-group-item" style="border: none;"><p>Please rate your experience with the other party below.</p></li>
                         </ul>
                     </div>
-                    <form method="POST" action="{{ route('rating.update', $id) }}" enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('rating.update', $transaction) }}" enctype="multipart/form-data" >
                         @csrf
 
                         <div class="form-group row">
