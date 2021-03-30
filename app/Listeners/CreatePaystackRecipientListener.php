@@ -44,7 +44,7 @@ class CreatePaystackRecipientListener implements ShouldQueue
             // Connect to Paystack Api to generate recipient code
             $url = "https://api.paystack.co/transferrecipient";
 
-            $bank = Bank::where('name', 'like', $profile->bank_name)->first();
+            $bank = Bank::where('name', $profile->bank_name)->first();
             $bankCode = $bank->code;
 
             $fields = [

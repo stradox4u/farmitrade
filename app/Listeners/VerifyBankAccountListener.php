@@ -31,7 +31,7 @@ class VerifyBankAccountListener implements ShouldQueue
         $profile = $event->profile;
         // Connect to Paystack Api to verify account number
         $accountNumber = $profile->account_number;
-        $bank = Bank::where('name', 'like', $profile->bank_name)->first();
+        $bank = Bank::where('name', $profile->bank_name)->first();
         $bankCode = $bank->code;
         // logger($bankCode);
         $curl = curl_init();

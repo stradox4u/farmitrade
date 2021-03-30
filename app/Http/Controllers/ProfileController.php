@@ -207,15 +207,13 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        $user = auth()->user();
-
-        if($user->profile->profile_image !== null)
+        if($profile->profile_image !== null)
         {
-            $profile_image = 'storage/' . $user->profile->profile_image;
+            $profile_image = 'storage/' . $profile->profile_image;
             File::delete($profile_image);
         }
 
-        $user->delete();
+        $profile->user->delete();
         
         return redirect(route('home'));
     }
