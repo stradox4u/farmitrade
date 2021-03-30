@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bank;
 use App\User;
 use App\Profile;
 use Illuminate\Support\Str;
@@ -37,7 +38,8 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('profiles.create');
+        $banks = Bank::all()->pluck('name');
+        return view('profiles.create', compact('banks'));
     }
 
     /**
@@ -119,7 +121,8 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        return view('profiles.edit', compact('profile'));
+        $banks = Bank::all()->pluck('name');
+        return view('profiles.edit', compact('profile', 'banks'));
     }
 
     /**
@@ -131,7 +134,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        // dd($profile);
+        dd($request);
         $data = $request->validate([
             'shipping_address1' => ['nullable', 'string', 'max:85'],
             'shipping_address2' => ['nullable', 'string', 'max:85'],

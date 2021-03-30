@@ -58,8 +58,12 @@
                         <div class="form-group row">
                             
                             <div class="col w-100">
-                                <input id="bank_name" type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" autocomplete="bank_name" value="{{ old('bank_name') }}" placeholder="Bank Name (Leave blank to avoid updating)">
-                                
+                                <select name="bank_name" id="bank_name" size="1" class="form-control @error('bank_name') is-invalid @enderror " value="{{ old('bank_name') }}" required>
+                                    <option value="" selected>Bank Name(Leave blank to avoid updating)</option>
+                                    @foreach ($banks as $bank)
+                                        <option value="{{ $bank }}">{{ $bank }}</option>
+                                    @endforeach
+                                </select>
                                 @error('bank_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

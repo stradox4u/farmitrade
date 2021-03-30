@@ -56,7 +56,12 @@
                             <div class="form-group row">
                                 
                                 <div class="col w-100">
-                                    <input id="bank_name" type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" value="{{ old('bank_name') }}" autocomplete="bank_name" autofocus placeholder="Bank Name">
+                                    <select name="bank_name" id="bank_name" size="1" class="form-control @error('bank_name') is-invalid @enderror " value="{{ old('bank_name') }}" required>
+                                        <option value="" selected>Please choose your bank name here</option>
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank }}">{{ $bank }}</option>
+                                        @endforeach
+                                    </select>
                                     
                                     @error('bank_name')
                                     <span class="invalid-feedback" role="alert">
